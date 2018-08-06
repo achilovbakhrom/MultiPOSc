@@ -1,5 +1,7 @@
 package com.jim.multipos.data.network;
 
+import com.jim.multipos.data.network.model.Signin;
+import com.jim.multipos.data.network.model.SigninResponse;
 import com.jim.multipos.data.network.model.Signup;
 import com.jim.multipos.data.network.model.SignupConfirmationResponse;
 import com.jim.multipos.data.network.model.SignupResponse;
@@ -25,4 +27,7 @@ public interface MultiPosApiService {
 
     @GET("/api/v1/confirm")
     Single<SignupConfirmationResponse> confirmEmail(@Query("email") String email, @Query("access_code") int num);
+
+    @POST("/api/v1/sign-in")
+    Single<SigninResponse> signIn(@Body Signin signin);
 }

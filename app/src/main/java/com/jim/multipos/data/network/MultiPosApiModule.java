@@ -53,7 +53,7 @@ public class MultiPosApiModule {
                 .create();
 
         builder.client(new OkHttpClient())
-                .baseUrl("http://192.168.0.109:8081")
+                .baseUrl("http://192.168.0.103:8081")
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson));
         return builder.build();

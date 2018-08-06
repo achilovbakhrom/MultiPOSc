@@ -1532,4 +1532,7 @@
     <string name="incorrect_email">Incorrect email</string>
     <string name="confirmation_error">Confirmation cannot be empty</string>
     <string name="admin_login">Admin Login</string>
+    <string name="forget_password">Forget Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="login_with_socials">Login With Socials</string>
 </resources>

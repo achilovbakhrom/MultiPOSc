@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <com.jim.mpviews.MpToolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/eighty_dp"
         app:view_mode="16"/>
@@ -20,8 +21,9 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.3"
-            android:orientation="vertical">
+            android:layout_weight="0.25"
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/ten_dp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -29,28 +31,127 @@
                 android:text="@string/admin_login"
                 android:textColor="@color/colorBlueSecond"
                 android:textSize="18sp"
-                android:layout_margin="@dimen/twenty_dp"/>
+                android:layout_marginBottom="@dimen/fifteen_dp"
+                android:layout_marginStart="@dimen/five_dp"/>
 
             <com.jim.mpviews.MpEditText
+                android:id="@+id/etUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/data_encryption"
+                android:hint="@string/login"
                 android:drawableStart="@drawable/customer_report"
-                android:drawablePadding="@dimen/twenty_dp"/>
+                android:drawablePadding="@dimen/ten_dp"
+                android:layout_marginBottom="@dimen/fifteen_dp"/>
 
+            <com.jim.mpviews.MpEditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/password"
+                android:drawableStart="@drawable/locked"
+                android:inputType="textPassword"
+                android:drawablePadding="@dimen/ten_dp"
+                android:layout_marginBottom="@dimen/ten_dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="@string/forget_password"
+                android:textColor="@color/colorGreySecondaryDark"
+                android:textSize="14sp"
+                android:layout_marginBottom="@dimen/twenty_five_dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/twenty_dp">
+
+                <com.jim.mpviews.MpButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/sign_up"
+                    android:onClick="SignUp"
+                    android:layout_marginEnd="@dimen/twenty_dp"/>
+
+                <com.jim.mpviews.MpButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorBlueSecond"
+                    android:onClick="SignIn"
+                    android:text="@string/sign_in"/>
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/some_text"
+                android:textColor="@color/colorGreySecondaryDark"
+                android:textSize="14sp"
+                android:layout_marginBottom="@dimen/fourty_dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/login_with_socials"
+                android:layout_marginBottom="@dimen/ten_dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/fourty_dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/locked"/>
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/fourty_dp"
+                    android:src="@drawable/bank"
+                    android:layout_weight="1"/>
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/fourty_dp"
+                    android:src="@drawable/customer_report"
+                    android:layout_weight="1"/>
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/fourty_dp"
+                    android:src="@drawable/add_circle"
+                    android:layout_weight="1"/>
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/fourty_dp"
+                    android:src="@drawable/currency"
+                    android:layout_weight="1"/>
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/fourty_dp"
+                    android:src="@drawable/launcher"
+                    android:layout_weight="1"/>
+            </LinearLayout>
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5">
 
+
         </LinearLayout>
 
     </LinearLayout>
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:text="sad"
-        android:textSize="18sp"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fifty_dp"
+        android:text="@string/some_text"
+        android:textSize="16sp"/>
 </LinearLayout>
