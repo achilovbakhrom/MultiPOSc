@@ -2,10 +2,15 @@ package com.jim.multipos.ui.mainpospage;
 
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.WindowManager;
 import android.widget.TextClock;
 import android.widget.TextView;
@@ -33,6 +38,7 @@ import com.jim.multipos.ui.mainpospage.view.BarcodeScannerFragment;
 import com.jim.multipos.ui.mainpospage.view.OrderListFragment;
 import com.jim.multipos.ui.product_last.ProductActivity;
 import com.jim.multipos.ui.reports.ReportsActivity;
+import com.jim.multipos.ui.reports_admin.ReportsAdminActivity;
 import com.jim.multipos.ui.settings.SettingsActivity;
 import com.jim.multipos.utils.MainMenuDialog;
 import com.jim.multipos.utils.OrderMenuDialog;
@@ -267,7 +273,7 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
                 AccessWithEditPasswordDialog accessWithEditPasswordDialog = new AccessWithEditPasswordDialog(this, new AccessWithEditPasswordDialog.OnAccsessListner() {
                     @Override
                     public void accsessSuccess() {
-                        Intent intent = new Intent(MainPosPageActivity.this, ReportsActivity.class);
+                        Intent intent = new Intent(MainPosPageActivity.this, ReportsAdminActivity.class);
                         startActivity(intent);
 
                     }
@@ -279,7 +285,7 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
                 },preferencesHelper);
                 accessWithEditPasswordDialog.show();
             }else {
-                Intent intent = new Intent(this, ReportsActivity.class);
+                Intent intent = new Intent(this, ReportsAdminActivity.class);
                 startActivity(intent);
             }
 

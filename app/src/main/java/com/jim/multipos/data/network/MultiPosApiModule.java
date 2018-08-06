@@ -52,8 +52,8 @@ public class MultiPosApiModule {
                 .setLenient()
                 .create();
 
-        builder.client(okHttpClient)
-                .baseUrl("http://192.168.0.111:8080")
+        builder.client(new OkHttpClient())
+                .baseUrl("http://192.168.0.109:8081")
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson));
         return builder.build();

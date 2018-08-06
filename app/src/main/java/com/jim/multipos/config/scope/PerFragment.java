@@ -26,7 +26,7 @@ import javax.inject.Scope;
  * of OnItemClickListener Fragment.
  * <p>
  * This is used to annotate dependencies that behave like OnItemClickListener singleton within the lifespan of OnItemClickListener
- * Fragment and child Fragments instead of the entire Application or Activity.
+ * Fragment and child Fragments instead of the entire Application or ActivityContex.
  */
 @Scope
 @Retention(RetentionPolicy.RUNTIME)

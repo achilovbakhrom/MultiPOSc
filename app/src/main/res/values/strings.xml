@@ -1225,6 +1225,20 @@
         <item>English</item>
         <item>Русский</item>
     </string-array>
+    <string-array name="reports_category">
+        <item>Finance Report</item>
+        <item>Product Report</item>
+        <item>Stock Report</item>
+        <item>Vendors Report</item>
+        <item>Debts Report</item>
+        <item>Discount Report</item>
+        <item>Sales Report</item>
+        <item>Tills Report</item>
+        <item>Staffs Report</item>
+        <item>Customer Report</item>
+        <item>Service Fee Report</item>
+        <item>POS Report</item>
+    </string-array>
     <string name="consigment_income">Incoming consignment</string>
     <string name="enter_old_password">Enter old password</string>
     <string name="enter_new_password">Enter new password</string>
@@ -1495,4 +1509,26 @@
     <string name="income_cost">Income Cost</string>
     <string name="income_count">Income Count</string>
     <string name="no_vendor_error_msg">No vendor has delivered this product</string>
+    <string name="general">General</string>
+    <string name="information">Information</string>
+    <string name="sex">Sex</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="date_of_birth">Date Of Birth</string>
+    <string name="country">Country</string>
+    <string name="add_photo">Add Photo</string>
+    <string name="last_name">Last Name</string>
+    <string name="first_name">First Name</string>
+    <string name="confirmation">Confirmation</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="secure_data_exchange">SECURE DATA EXCHANGE</string>
+    <string name="data_encryption">DATA ENCRYPTION</string>
+    <string name="uncompromising">uncompromising</string>
+    <string name="tough_and_secure">tough and secure</string>
+    <string name="user_authorisation">USER AUTHORISATION</string>
+    <string name="login_to_access_data">login to access data</string>
+    <string name="required_field">Required field</string>
+    <string name="password_dont_match">Passwords do not match</string>
+    <string name="incorrect_email">Incorrect email</string>
+    <string name="confirmation_error">Confirmation cannot be empty</string>
 </resources>

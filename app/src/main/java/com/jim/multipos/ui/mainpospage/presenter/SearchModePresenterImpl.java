@@ -73,6 +73,9 @@ public class SearchModePresenterImpl extends BasePresenterImpl<SearchModeView> i
                 }
             }
             view.setResultsList(productsTemp, s);
+        }else{
+            List<Product> products = new ArrayList<>();
+            view.setResultsList(products, s);
         }
     }
 

@@ -4,6 +4,10 @@ import android.app.Application;
 
 import com.jim.multipos.MultiPosApp;
 import com.jim.multipos.config.scope.PerActivity;
+import com.jim.multipos.ui.admin_auth_signin.AdminAuthSigninActivity;
+import com.jim.multipos.ui.admin_auth_signin.di.AdminAuthSigninActivityModule;
+import com.jim.multipos.ui.admin_auth_signup.AdminAuthSignupActivity;
+import com.jim.multipos.ui.admin_auth_signup.di.AdminAuthSignupActivityModule;
 import com.jim.multipos.ui.billing_vendor.BillingOperationsActivity;
 import com.jim.multipos.ui.billing_vendor.di.BillingOperationActivityModule;
 import com.jim.multipos.ui.cash_management.CashManagementActivity;
@@ -42,6 +46,8 @@ import com.jim.multipos.ui.products_expired.ExpiredProductsActivity;
 import com.jim.multipos.ui.products_expired.di.ExpiredProductsActivityModule;
 import com.jim.multipos.ui.reports.ReportsActivity;
 import com.jim.multipos.ui.reports.di.ReportsActivityModule;
+import com.jim.multipos.ui.reports_admin.ReportsAdminActivity;
+import com.jim.multipos.ui.reports_admin.di.ReportsAdminActivityModule;
 import com.jim.multipos.ui.secure.AuthActivity;
 import com.jim.multipos.ui.secure.di.AuthActivityModule;
 import com.jim.multipos.ui.service_fee_new.ServiceFeeActivity;
@@ -76,6 +82,14 @@ abstract class AppModule {
     abstract SignActivity provideSignActivity();
 
     @PerActivity
+    @ContributesAndroidInjector(modules = AdminAuthSignupActivityModule.class)
+    abstract AdminAuthSignupActivity provideAdminAuthSignupActivity();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = AdminAuthSigninActivityModule.class)
+    abstract AdminAuthSigninActivity provideAdminAuthSigninActivity();
+
+    @PerActivity
     @ContributesAndroidInjector(modules = CostomersMenuModule.class)
     abstract CustomersMenuActivity provideCustomersMenuActivity();
 
@@ -94,6 +108,10 @@ abstract class AppModule {
     @PerActivity
     @ContributesAndroidInjector(modules = CustomerGroupActivityModule.class)
     abstract CustomerGroupActivity provideCustomerGroupActivity();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = ReportsAdminActivityModule.class)
+    abstract ReportsAdminActivity provideReportsAdminActivity();
 
     /*@PerActivity
     @ContributesAndroidInjector(modules = com.jim.multipos.ui.customer_group.di.CustomerGroupActivityModule.class)

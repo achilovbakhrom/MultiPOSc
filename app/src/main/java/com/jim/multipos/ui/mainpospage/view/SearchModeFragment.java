@@ -161,11 +161,12 @@ public class SearchModeFragment extends BaseFragment implements SearchModeView {
 
     @Override
     public void setResultsList(List<Product> resultsList, String searchText) {
-        tvSearchResultsCount.setText(getContext().getString(R.string.search_results) + " - " + resultsList.size());
-        searchResultsAdapter.setItems(resultsList, searchText);
-        productList = resultsList;
-        searchResultsAdapter.notifyDataSetChanged();
-
+        if(searchResultsAdapter!=null) {
+            tvSearchResultsCount.setText(getContext().getString(R.string.search_results) + " - " + resultsList.size());
+            searchResultsAdapter.setItems(resultsList, searchText);
+            productList = resultsList;
+            searchResultsAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

@@ -1,18 +1,13 @@
 package com.jim.multipos;
 
 import android.app.Activity;
-import android.app.ActivityManager;
-import android.app.Application;
 import android.app.Service;
 import android.content.Context;
-import android.content.Intent;
 import android.support.multidex.MultiDexApplication;
-import android.util.Log;
 
 import com.jim.multipos.config.common.DaggerAppComponent;
 import com.jim.multipos.di.BaseAppComponent;
 import com.jim.multipos.utils.managers.LocaleManger;
-import com.jim.multipos.utils.usb_barcode.USBService;
 
 import javax.inject.Inject;
 

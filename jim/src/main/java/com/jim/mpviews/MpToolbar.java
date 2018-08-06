@@ -32,9 +32,12 @@ public class MpToolbar extends RelativeLayout {
 
     public static final int DEFAULT_MODE = 10;
     public static final int MAIN_MODE = 11;
+    public static final int BACK_ARROW_MODE = 12;
     public static final int ADMIN_MODE = 13;
     public static final int PAYMENT_MODE = 14;
     public static final int BALANCE_MODE = 15;
+    public static final int BACK_ARROW_WITH_ICON = 16;
+
 
     private SimpleDateFormat simpleDateFormat;
     private int mode;
@@ -50,6 +53,7 @@ public class MpToolbar extends RelativeLayout {
     private DataIntervalCallbackToToolbar dataIntervalPicker;
     private TextView tvPeriod;
     private CallbackSearchFragmentClick onSearchClickListener;
+    private OnBackArrowClick onBackArrowClick;
 
     public MpToolbar(Context context) {
         super(context);
@@ -247,7 +251,19 @@ public class MpToolbar extends RelativeLayout {
                 return false;
             }
         });
+
+        findViewById(R.id.btnBack).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackArrowClick.onClick();
+            }
+        });
+
         array.recycle();
+    }
+
+    public void setOnBackArrowClick(OnBackArrowClick onBackArrowClick) {
+        this.onBackArrowClick = onBackArrowClick;
     }
 
     boolean isSearchFragmentOpened = false;
@@ -427,10 +443,31 @@ public class MpToolbar extends RelativeLayout {
                 llEmployer.setVisibility(GONE);
                 findViewById(R.id.mpInfo).setVisibility(GONE);
                 findViewById(R.id.blackLine).setVisibility(GONE);
+                break;
             }
+
+            case BACK_ARROW_MODE:{
+                mpLeftSide.setVisibility(GONE);
+                rlBackgroun.setVisibility(GONE);
+                findViewById(R.id.btnBack).setVisibility(VISIBLE);
+                break;
+            }
+
+            case BACK_ARROW_WITH_ICON:
+                mpLeftSide.setVisibility(GONE);
+                rlBackgroun.setVisibility(GONE);
+                findViewById(R.id.btnBack).setVisibility(VISIBLE);
+                findViewById(R.id.tvMPCenter).setVisibility(VISIBLE);
+                break;
 
         }
     }
+
+    public interface OnBackArrowClick{
+        void onClick();
+    }
+
+
 
     private void setFramesVisibility(int state){
         findViewById(R.id.frame1).setVisibility(state);

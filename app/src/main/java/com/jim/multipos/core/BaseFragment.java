@@ -73,7 +73,7 @@ public abstract class BaseFragment extends Fragment implements HasSupportFragmen
     public void onAttach(Context context) {
         if (isAndroidInjectionEnabled()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                // Perform injection here for M (API 23) due to deprecation of onAttach(Activity).
+                // Perform injection here for M (API 23) due to deprecation of onAttach(ActivityContex).
                 AndroidSupportInjection.inject(this);
             }
         }

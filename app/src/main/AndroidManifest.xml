@@ -196,6 +196,11 @@
         <activity android:name=".ui.products_expired.ExpiredProductsActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".ui.reports_admin.ReportsAdminActivity" />
+        <activity android:name=".ui.admin_auth_signup.AdminAuthSignupActivity" />
+        <activity android:name=".core.DoubleSideAdminActivity" />
+        <activity android:name=".ui.admin_main_page.AdminMainPageActivity" />
+        <activity android:name=".ui.admin_auth_signin.AdminAuthSigninActivity" />
 
         <service
             android:name="com.jim.multipos.utils.usb_barcode.USBService"

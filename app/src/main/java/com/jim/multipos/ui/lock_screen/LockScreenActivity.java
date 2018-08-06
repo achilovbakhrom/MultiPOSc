@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.os.UserManager;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,8 @@ import com.jim.multipos.DeviceAdminReceiver;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseActivity;
 import com.jim.multipos.data.prefs.PreferencesHelper;
+import com.jim.multipos.ui.admin_auth_signin.AdminAuthSigninActivity;
+import com.jim.multipos.ui.admin_auth_signup.AdminAuthSignupActivity;
 import com.jim.multipos.ui.lock_screen.dialog.PlugRefreshDialog;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.start_configuration.StartConfigurationActivity;
@@ -97,6 +100,7 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
     private DevicePolicyManager mDevicePolicyManager;
     private ComponentName mAdminComponentName;
     int clickedcount = 0;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -290,6 +294,7 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
         }
 
     }
+
     public void openFirstConfigure(){
         if (preferencesHelper.isAppRunFirstTime()){
             try {
@@ -373,7 +378,7 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
 
         mDevicePolicyManager.setPermissionPolicy(mAdminComponentName,PERMISSION_POLICY_AUTO_GRANT);
 
-        // set this Activity as OnItemClickListener lock task package
+        // set this ActivityContex as OnItemClickListener lock task package
 
         mDevicePolicyManager.setLockTaskPackages(mAdminComponentName,
                 active ? new String[]{getPackageName()} : new String[]{});
@@ -487,5 +492,10 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
             }
         }
         return false;
+    }
+
+    public void enterAsAdmin(View view) {
+        Intent intent = new Intent(LockScreenActivity.this, AdminAuthSigninActivity.class);
+        startActivity(intent);
     }
 }

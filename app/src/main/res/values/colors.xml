@@ -6,6 +6,7 @@
     <color name="colorBlue">#419fd9</color>
     <color name="colorBlueDark">#3a90c6</color>
     <color name="colorBlueSecond">#51afe6</color>
+    <color name="colorCircleBlue">#52ace5</color>
     <color name="colorBlueThird">#d1eafa</color>
     <color name="colorDarkBlue">#0f7dc1</color>
     <color name="colorLightCyan">#d0eaf9</color>
@@ -16,6 +17,7 @@
     <color name="colorGreyLightSecond">#f4f4f4</color>
     <color name="colorGrey">#ebebeb</color>
     <color name="colorGreyDark">#cccccc</color>
+    <color name="colorGreySecondaryDark">#beced7</color>
     <color name="colorSecondaryText">#898989</color>
     <color name="colorTextHint">#e1e1e1</color>
     <color name="colorMainText">#414141</color>
