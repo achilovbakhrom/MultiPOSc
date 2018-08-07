@@ -8,6 +8,8 @@ import com.jim.multipos.ui.admin_auth_signin.AdminAuthSigninActivity;
 import com.jim.multipos.ui.admin_auth_signin.di.AdminAuthSigninActivityModule;
 import com.jim.multipos.ui.admin_auth_signup.AdminAuthSignupActivity;
 import com.jim.multipos.ui.admin_auth_signup.di.AdminAuthSignupActivityModule;
+import com.jim.multipos.ui.admin_main_page.AdminMainPageActivity;
+import com.jim.multipos.ui.admin_main_page.di.AdminMainPageModule;
 import com.jim.multipos.ui.billing_vendor.BillingOperationsActivity;
 import com.jim.multipos.ui.billing_vendor.di.BillingOperationActivityModule;
 import com.jim.multipos.ui.cash_management.CashManagementActivity;
@@ -88,6 +90,10 @@ abstract class AppModule {
     @PerActivity
     @ContributesAndroidInjector(modules = AdminAuthSigninActivityModule.class)
     abstract AdminAuthSigninActivity provideAdminAuthSigninActivity();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = AdminMainPageModule.class)
+    abstract AdminMainPageActivity provideAdminMainPageActivity();
 
     @PerActivity
     @ContributesAndroidInjector(modules = CostomersMenuModule.class)
