@@ -15,8 +15,6 @@ import com.jim.multipos.ui.admin_auth_signup.fragments.general.GeneralFragment;
 import com.jim.multipos.ui.admin_auth_signup.fragments.general.GeneralFragmentModule;
 import com.jim.multipos.ui.admin_auth_signup.fragments.info.InfoFragment;
 import com.jim.multipos.ui.admin_auth_signup.fragments.info.InfoFragmentModule;
-import com.jim.multipos.ui.start_configuration.account.AccountFragment;
-import com.jim.multipos.ui.start_configuration.account.AccountFragmentModule;
 
 import dagger.Binds;
 import dagger.Module;

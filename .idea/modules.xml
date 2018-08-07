@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MultiPOS.iml" filepath="$PROJECT_DIR$/MultiPOS.iml" />
       <module fileurl="file://$PROJECT_DIR$/MultiPOSc.iml" filepath="$PROJECT_DIR$/MultiPOSc.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/jim/jim.iml" filepath="$PROJECT_DIR$/jim/jim.iml" />

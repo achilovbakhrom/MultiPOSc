@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.jim.multipos">
 
-    <uses-feature android:name="android.hardware.usb.host"/>
+    <uses-feature android:name="android.hardware.usb.host" />
+
     <uses-permission android:name="android.permission.USB_PERMISSION" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -13,7 +12,7 @@
     <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_SUPERUSER"/>
+    <uses-permission android:name="android.permission.ACCESS_SUPERUSER" />
 
     <application
         android:name=".MultiPosApp"
@@ -35,10 +34,11 @@
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:launchMode="singleTask"
             android:lockTaskMode="if_whitelisted"
-            android:windowSoftInputMode="stateHidden" >
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
-                <category android:name="android.intent.category.HOME"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -46,8 +46,8 @@
         </activity>
         <activity
             android:name=".ui.product_last.ProductActivity"
-            android:windowSoftInputMode="stateHidden"
             android:configChanges="keyboard|keyboardHidden|navigation"
+            android:windowSoftInputMode="stateHidden"
 
             >
 
@@ -56,54 +56,60 @@
             android:name=".ui.main_menu.product_menu.ProductMenuActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:windowSoftInputMode="stateHidden"
-            
+
             />
-        <activity android:name=".ui.main_menu.customers_menu.CustomersMenuActivity"
+        <activity
+            android:name=".ui.main_menu.customers_menu.CustomersMenuActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
 
-            
+
             />
         <activity
             android:name=".ui.main_menu.inventory_menu.InventoryMenuActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
-            
+
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ui.signing.SignActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
-            
+
             android:windowSoftInputMode="stateHidden">
 
         </activity>
-        <activity android:name=".ui.product_class_new.ProductsClassActivity"
+        <activity
+            android:name=".ui.product_class_new.ProductsClassActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
-            
-            />
-        <activity android:name=".ui.discount.DiscountAddingActivity"
-            android:configChanges="keyboard|keyboardHidden|navigation"
-            
 
             />
-        <activity android:name=".ui.service_fee_new.ServiceFeeActivity"
+        <activity
+            android:name=".ui.discount.DiscountAddingActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
-            
+
 
             />
-        <activity android:name=".ui.customer_group_new.CustomerGroupActivity"
+        <activity
+            android:name=".ui.service_fee_new.ServiceFeeActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
-            
+
 
             />
-        <activity android:name=".ui.consignment.ConsignmentActivity"
+        <activity
+            android:name=".ui.customer_group_new.CustomerGroupActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
-            
+
+
+            />
+        <activity
+            android:name=".ui.consignment.ConsignmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+
             >
 
         </activity>
         <activity
             android:name=".ui.billing_vendor.BillingOperationsActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
-            
+
 
             android:windowSoftInputMode="stateHidden">
 
@@ -112,47 +118,49 @@
             android:name=".ui.inventory.InventoryActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
 
-            
+
             android:windowSoftInputMode="stateHidden">
 
         </activity>
 
-        <activity android:name=".ui.vendor_products_view.VendorProductsViewActivity"
+        <activity
+            android:name=".ui.vendor_products_view.VendorProductsViewActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
-            android:windowSoftInputMode="stateHidden"
-            >
+            android:windowSoftInputMode="stateHidden">
 
         </activity>
         <activity
             android:name=".ui.vendor_item_managment.VendorItemsActivity"
-            android:windowSoftInputMode="stateHidden"
             android:configChanges="keyboard|keyboardHidden|navigation"
-            >
+            android:windowSoftInputMode="stateHidden">
 
         </activity>
         <activity
             android:name=".ui.consignment_list.ConsignmentListActivity"
-            
+
+            android:configChanges="keyboard|keyboardHidden|navigation"
             android:windowSoftInputMode="stateHidden"
+
+            />
+        <activity
+            android:name=".ui.customer_debt.CustomerDebtActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
 
             />
-        <activity android:name=".ui.customer_debt.CustomerDebtActivity"
+        <activity
+            android:name=".ui.settings.SettingsActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
-            
+
             />
-        <activity android:name=".ui.settings.SettingsActivity"
+        <activity
+            android:name=".ui.cash_management.CashManagementActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
-            
+
             />
-        <activity android:name=".ui.cash_management.CashManagementActivity"
-            android:configChanges="keyboard|keyboardHidden|navigation"
-            
-            />
-        <activity android:name=".ui.reports.ReportsActivity"
-            
-            android:configChanges="keyboard|keyboardHidden|navigation"
-            >
+        <activity
+            android:name=".ui.reports.ReportsActivity"
+
+            android:configChanges="keyboard|keyboardHidden|navigation">
             <intent-filter>
                 <action android:name="android.intent.action.OPEN_DOCUMENT_TREE" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -162,40 +170,44 @@
             android:name=".ui.secure.AuthActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:windowSoftInputMode="stateHidden"
-            
+
             />
-        <activity android:name=".ui.start_configuration.StartConfigurationActivity"
+        <activity
+            android:name=".ui.start_configuration.StartConfigurationActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".utils.usb_barcode.UsbEventReceiverActivity"
-            android:label="MultiPOS - set remember and click ok"
-            android:theme="@style/Theme.Transparent"
-            android:noHistory="true"
             android:excludeFromRecents="true"
-            android:taskAffinity="com.example.taskAffinityUsbEventReceiver"
-            android:process=":UsbEventReceiverActivityProcess"
             android:exported="false"
-            >
+            android:label="MultiPOS - set remember and click ok"
+            android:noHistory="true"
+            android:process=":UsbEventReceiverActivityProcess"
+            android:taskAffinity="com.example.taskAffinityUsbEventReceiver"
+            android:theme="@style/Theme.Transparent">
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
             </intent-filter>
-            <meta-data android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
+            <meta-data
+                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/device_filter" />
         </activity>
-        <activity android:name=".ui.customers.CustomersActivity"
+        <activity
+            android:name=".ui.customers.CustomersActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".ui.vendors.VendorsActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ui.vendors.VendorsActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".ui.product_queue_list.ProductQueueListActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ui.product_queue_list.ProductQueueListActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
-            android:windowSoftInputMode="stateHidden"
-            />
-        <activity android:name=".ui.products_expired.ExpiredProductsActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ui.products_expired.ExpiredProductsActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ui.reports_admin.ReportsAdminActivity" />
         <activity android:name=".ui.admin_auth_signup.AdminAuthSignupActivity" />
         <activity android:name=".ui.admin_main_page.AdminMainPageActivity" />
@@ -204,7 +216,7 @@
         <service
             android:name="com.jim.multipos.utils.usb_barcode.USBService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
 
         <service android:name=".utils.usb_barcode.BootCompleteService" />
 
@@ -217,23 +229,23 @@
                 android:name="android.app.device_admin"
                 android:resource="@xml/device_admin_receiver" />
             <intent-filter>
-                <action android:name="android.intent.action.DEVICE_ADMIN_ENABLED"/>
-                <action android:name="android.intent.action.PROFILE_PROVISIONING_COMPLETE"/>
+                <action android:name="android.intent.action.DEVICE_ADMIN_ENABLED" />
+                <action android:name="android.intent.action.PROFILE_PROVISIONING_COMPLETE" />
             </intent-filter>
         </receiver>
 
         <!--<receiver-->
-            <!--android:enabled="true"-->
-            <!--android:name=".utils.usb_barcode.BootCompleteReceiver"-->
-            <!--android:priority="999"-->
-            <!--&gt;-->
-            <!--<intent-filter android:priority="999">-->
-                <!--<action android:priority="99999" android:name="android.intent.action.BOOT_COMPLETED"/>-->
-                <!--<action android:priority="99999" android:name="android.intent.action.QUICKBOOT_POWERON"/>-->
-                <!--<action android:priority="99999" android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>-->
-                <!--<action android:priority="99999" android:name="android.intent.action.REBOOT"/>-->
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-            <!--</intent-filter>-->
+        <!--android:enabled="true"-->
+        <!--android:name=".utils.usb_barcode.BootCompleteReceiver"-->
+        <!--android:priority="999"-->
+        <!--&gt;-->
+        <!--<intent-filter android:priority="999">-->
+        <!--<action android:priority="99999" android:name="android.intent.action.BOOT_COMPLETED"/>-->
+        <!--<action android:priority="99999" android:name="android.intent.action.QUICKBOOT_POWERON"/>-->
+        <!--<action android:priority="99999" android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>-->
+        <!--<action android:priority="99999" android:name="android.intent.action.REBOOT"/>-->
+        <!--<category android:name="android.intent.category.DEFAULT" />-->
+        <!--</intent-filter>-->
         <!--</receiver>-->
 
 

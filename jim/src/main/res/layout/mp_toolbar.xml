@@ -7,8 +7,9 @@
         android:id="@+id/mpMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/toolbar_full"
+        android:background="@color/colorBlueSecond"
         android:orientation="horizontal">
+
 
         <ImageView
             android:id="@+id/btnBack"
@@ -147,7 +148,6 @@
                     <RelativeLayout
                         android:id="@+id/mpProducts"
                         android:layout_width="0dp"
-
                         android:layout_height="match_parent"
                         android:layout_weight="1">
 
@@ -501,25 +501,34 @@
             android:orientation="horizontal"
             android:visibility="gone">
 
-            <ImageView
-                android:layout_width="@dimen/hundred_dp"
+            <ImageButton
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/settings_blue" />
+                android:background="@color/transparent"
+                android:src="@drawable/company_icon" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/divider" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="5dp">
 
-                <ImageView
-                    android:layout_width="@dimen/hundred_dp"
-                    android:layout_height="match_parent" />
+                <com.jim.mpviews.MpRoundedImageView
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/avatar" />
 
-                <com.jim.mpviews.MPosSpinner
+
+                <com.jim.mpviews.MpSpinnerTransparent
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </LinearLayout>
-
 
         </LinearLayout>
 
@@ -531,6 +540,114 @@
             android:orientation="horizontal"
             android:visibility="gone">
 
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/divider" />
+
+            <ImageButton
+                android:id="@+id/company"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:src="@drawable/company_icon" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/divider" />
+
+            <ImageButton
+                android:id="@+id/dashboard"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:src="@drawable/dashboard_icon" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/divider" />
+
+            <ImageButton
+                android:id="@+id/establishment"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:src="@drawable/establishment_icon" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/divider" />
+
+            <ImageButton
+                android:id="@+id/entity"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:src="@drawable/entity_icon" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/divider" />
+
+            <ImageButton
+                android:id="@+id/vendor"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:src="@drawable/vendor_icon" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/divider" />
+
+            <ImageButton
+                android:id="@+id/inventory"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:src="@drawable/inventory_icon" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/divider" />
+
+            <ImageButton
+                android:id="@+id/crm"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:src="@drawable/crm_icon" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+
+                android:background="@color/divider" />
+
+            <ImageButton
+                android:id="@+id/hrm"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:src="@drawable/hrm_icon" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/divider" />
+
+            <ImageButton
+                android:id="@+id/report"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:src="@drawable/report_icon" />
         </LinearLayout>
 
     </LinearLayout>

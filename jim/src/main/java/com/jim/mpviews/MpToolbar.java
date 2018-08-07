@@ -338,7 +338,7 @@ public class MpToolbar extends RelativeLayout {
 
     private void setVisibility() {
         switch (mode) {
-            case DEFAULT_TYPE: {
+            case DEFAULT_TYPE:
                 rlBackgroun.setVisibility(GONE);
                 mpRightSide.setVisibility(GONE);
                 mpMainMenu.setVisibility(GONE);
@@ -350,8 +350,8 @@ public class MpToolbar extends RelativeLayout {
                 findViewById(R.id.mpInfo).setVisibility(GONE);
                 findViewById(R.id.blackLine).setVisibility(GONE);
                 break;
-            }
-            case DEFAULT_TYPE_TWO_SECTION: {
+
+            case DEFAULT_TYPE_TWO_SECTION:
                 rlBackgroun.setVisibility(VISIBLE);
                 mpRightSide.setVisibility(VISIBLE);
                 mpMainMenu.setVisibility(GONE);
@@ -363,8 +363,8 @@ public class MpToolbar extends RelativeLayout {
                 findViewById(R.id.mpInfo).setVisibility(GONE);
                 findViewById(R.id.blackLine).setVisibility(GONE);
                 break;
-            }
-            case MAIN_PAGE_TYPE: {
+
+            case MAIN_PAGE_TYPE:
                 setFramesVisibility(VISIBLE);
                 mpRightSide.setVisibility(VISIBLE);
                 mpMainMenu.setVisibility(VISIBLE);
@@ -380,8 +380,8 @@ public class MpToolbar extends RelativeLayout {
                 findViewById(R.id.mpInfo).setVisibility(GONE);
                 findViewById(R.id.blackLine).setVisibility(GONE);
                 break;
-            }
-            case SEARCH_MODE_TYPE: {
+
+            case SEARCH_MODE_TYPE:
                 setFramesVisibility(GONE);
                 mpRightSide.setVisibility(VISIBLE);
                 mpMainMenu.setVisibility(VISIBLE);
@@ -397,8 +397,8 @@ public class MpToolbar extends RelativeLayout {
                 findViewById(R.id.mpInfo).setVisibility(GONE);
                 findViewById(R.id.blackLine).setVisibility(GONE);
                 break;
-            }
-            case WITH_SEARCH_TYPE: {
+
+            case WITH_SEARCH_TYPE:
                 mpRightSide.setVisibility(GONE);
                 mpMainMenu.setVisibility(GONE);
                 mpSettings.setVisibility(GONE);
@@ -409,8 +409,8 @@ public class MpToolbar extends RelativeLayout {
                 findViewById(R.id.mpInfo).setVisibility(GONE);
                 findViewById(R.id.blackLine).setVisibility(GONE);
                 break;
-            }
-            case WITH_CALENDAR_TYPE: {
+
+            case WITH_CALENDAR_TYPE:
                 mpRightSide.setVisibility(GONE);
                 mpMainMenu.setVisibility(GONE);
                 mpSettings.setVisibility(GONE);
@@ -421,8 +421,8 @@ public class MpToolbar extends RelativeLayout {
                 findViewById(R.id.mpInfo).setVisibility(GONE);
                 findViewById(R.id.blackLine).setVisibility(GONE);
                 break;
-            }
-            case WITH_SEARCH_CALENDAR_TYPE: {
+
+            case WITH_SEARCH_CALENDAR_TYPE:
                 mpRightSide.setVisibility(GONE);
                 mpMainMenu.setVisibility(GONE);
                 mpSettings.setVisibility(GONE);
@@ -433,14 +433,14 @@ public class MpToolbar extends RelativeLayout {
                 findViewById(R.id.mpInfo).setVisibility(GONE);
                 findViewById(R.id.blackLine).setVisibility(GONE);
                 break;
-            }
 
-            case BACK_ARROW_MODE: {
+
+            case BACK_ARROW_MODE:
                 mpLeftSide.setVisibility(GONE);
                 rlBackgroun.setVisibility(GONE);
                 findViewById(R.id.btnBack).setVisibility(VISIBLE);
                 break;
-            }
+
 
             case BACK_ARROW_WITH_ICON:
                 mpLeftSide.setVisibility(GONE);
@@ -449,6 +449,24 @@ public class MpToolbar extends RelativeLayout {
                 findViewById(R.id.tvMPCenter).setVisibility(VISIBLE);
                 break;
 
+            case ADMIN_MODE:
+                findViewById(R.id.adminViewLeftSide).setVisibility(VISIBLE);
+                findViewById(R.id.adminViewRightSide).setVisibility(VISIBLE);
+                findViewById(R.id.btnBack).setVisibility(GONE);
+                findViewById(R.id.tvMPCenter).setVisibility(GONE);
+                mpLeftSide.setVisibility(GONE);
+                rlBackgroun.setVisibility(GONE);
+
+                mpRightSide.setVisibility(GONE);
+                mpMainMenu.setVisibility(GONE);
+                mpSettings.setVisibility(GONE);
+                mpHorizontalScroller.setVisibility(GONE);
+                llDateIntervalPicker.setVisibility(VISIBLE);
+                mpSearchView.setVisibility(VISIBLE);
+                llEmployer.setVisibility(GONE);
+                findViewById(R.id.mpInfo).setVisibility(GONE);
+                findViewById(R.id.blackLine).setVisibility(GONE);
+                break;
         }
     }
 

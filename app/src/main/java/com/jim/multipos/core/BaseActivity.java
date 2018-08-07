@@ -83,7 +83,7 @@ public abstract class BaseActivity extends AppCompatActivity implements HasSuppo
 
     protected final void replaceFragmentWithClearTop(@IdRes int containerViewId, Fragment fragment) {
         if (fragment.isAdded()) return;
-        while (activityFragmentManager.getBackStackEntryCount()!=0)
+        while (activityFragmentManager.getBackStackEntryCount() != 0)
             activityFragmentManager.popBackStackImmediate();
         activityFragmentManager.beginTransaction()
                 .replace(containerViewId, fragment)

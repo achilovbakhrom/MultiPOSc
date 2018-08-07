@@ -2,23 +2,13 @@ package com.jim.mpviews;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.jim.mpviews.utils.VibrateManager;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by Пользователь on 22.06.2017.
@@ -26,11 +16,11 @@ import java.util.List;
 
 public class MpHorizontalScroller extends LinearLayout {
 
+    int counter = 0;
+    boolean pressed = false;
     private TextView mpCenterText, mpCounter;
     private ImageView mpCenter;
-    int counter = 0;
     private ImageView mpLeftArrow, mpRightArrow;
-    boolean pressed = false;
 
     public MpHorizontalScroller(Context context) {
         super(context);
@@ -111,12 +101,14 @@ public class MpHorizontalScroller extends LinearLayout {
     }
 
 
-    public void setOnLeftArrowClickListner(OnClickListener onLeftArrowClickListner){
+    public void setOnLeftArrowClickListner(OnClickListener onLeftArrowClickListner) {
         mpLeftArrow.setOnClickListener(onLeftArrowClickListner);
     }
-    public void setOnRightArrowClickListner(OnClickListener onRightArrowClickListner){
+
+    public void setOnRightArrowClickListner(OnClickListener onRightArrowClickListner) {
         mpRightArrow.setOnClickListener(onRightArrowClickListner);
     }
+
     public void setOnItemClickListener(OnClickListener onItemClickListener) {
         mpCenter.setOnClickListener(onItemClickListener);
     }
