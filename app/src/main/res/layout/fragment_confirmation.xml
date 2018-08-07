@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_margin="@dimen/twenty_dp"
     tools:context=".ui.admin_auth_signup.fragments.ConfirmationFragment">
 
 
@@ -12,6 +13,7 @@
         android:id="@+id/confirmation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="number"
         android:hint="@string/confirmation" />
 
     <TextView
@@ -21,4 +23,23 @@
         android:text="@string/some_text"
         android:textColor="@color/colorTextHint"
         android:textSize="17sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/nextBtn"
+            android:layout_width="153dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="@dimen/ten_dp"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:background="@drawable/admin_reg_next_button"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/twenty_dp"
+            android:text="@string/confirm"
+            android:textColor="@color/colorWhite" />
+
+    </RelativeLayout>
 </LinearLayout>

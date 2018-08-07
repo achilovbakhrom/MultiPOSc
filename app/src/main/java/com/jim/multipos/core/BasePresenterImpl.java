@@ -15,9 +15,6 @@ public class BasePresenterImpl<T extends BaseView> implements Presenter {
 
     protected final T view;
 
-    @Inject
-    CompositeDisposable disposable;
-
     protected BasePresenterImpl(T t) {
         this.view = t;
     }
@@ -44,15 +41,11 @@ public class BasePresenterImpl<T extends BaseView> implements Presenter {
 
     @Override
     public void onDestroy() {
-        disposable.dispose();
+
     }
 
     @Override
     public void onCreateView(Bundle bundle) {
 
-    }
-
-    public CompositeDisposable getDisposable() {
-        return disposable;
     }
 }

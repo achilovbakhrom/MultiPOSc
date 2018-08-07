@@ -15,6 +15,7 @@ import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.Utils;
 import com.jim.multipos.utils.rxevents.admin_auth_events.GeneralEvent;
+import com.jim.multipos.utils.rxevents.admin_auth_events.OnBackEvent;
 
 import javax.inject.Inject;
 
@@ -45,6 +46,11 @@ public class GeneralFragment extends BaseFragment implements GeneralView{
     @OnClick(R.id.nextBtn)
     public void onNextClick(View view){
         presenter.onVerifyData(etLogin.getText().toString(), etPassword.getText().toString(), etConfirmPassword.getText().toString());
+    }
+
+    @OnClick(R.id.backBtn)
+    public void onBackClicked(View view){
+        bus.send(new OnBackEvent());
     }
 
     @Override

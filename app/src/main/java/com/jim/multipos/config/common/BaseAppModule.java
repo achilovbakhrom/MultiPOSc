@@ -33,11 +33,6 @@ public abstract class BaseAppModule {
 
     abstract Application BaseAppModule(MultiPosApp app);
 
-    @Singleton
-    @Provides
-    static CompositeDisposable provideCompositeDisposable() {
-        return new CompositeDisposable();
-    }
 
     @Provides
     @Singleton

@@ -1529,7 +1529,7 @@
     <string name="login_to_access_data">login to access data</string>
     <string name="required_field">Required field</string>
     <string name="password_dont_match">Passwords do not match</string>
-    <string name="incorrect_email">Incorrect email</string>
+    <string name="incorrect_email">Please enter valid mail</string>
     <string name="confirmation_error">Confirmation cannot be empty</string>
     <string name="admin_login">Admin Login</string>
     <string name="forget_password">Forget Password</string>

@@ -9,6 +9,8 @@ import com.jim.multipos.ui.admin_auth_signup.AdminAuthSignupActivity;
 import com.jim.multipos.ui.admin_auth_signup.AdminAuthSignupActivityPresenter;
 import com.jim.multipos.ui.admin_auth_signup.AdminAuthSignupActivityPresenterImpl;
 import com.jim.multipos.ui.admin_auth_signup.AdminAuthSignupActivityView;
+import com.jim.multipos.ui.admin_auth_signup.fragments.confirmation.ConfirmationFragment;
+import com.jim.multipos.ui.admin_auth_signup.fragments.confirmation.ConfirmationFragmentModule;
 import com.jim.multipos.ui.admin_auth_signup.fragments.general.GeneralFragment;
 import com.jim.multipos.ui.admin_auth_signup.fragments.general.GeneralFragmentModule;
 import com.jim.multipos.ui.admin_auth_signup.fragments.info.InfoFragment;
@@ -42,4 +44,8 @@ public abstract class AdminAuthSignupActivityModule {
     @PerFragment
     @ContributesAndroidInjector(modules = InfoFragmentModule.class)
     abstract InfoFragment provideInfoFragment();
+
+    @PerFragment
+    @ContributesAndroidInjector(modules = ConfirmationFragmentModule.class)
+    abstract ConfirmationFragment provideConfirmationFragment();
 }

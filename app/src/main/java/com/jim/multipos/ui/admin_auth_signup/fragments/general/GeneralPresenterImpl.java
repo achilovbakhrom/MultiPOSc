@@ -28,7 +28,7 @@ public class GeneralPresenterImpl extends BasePresenterImpl<GeneralView> impleme
             view.onError(R.string.password_dont_match, 2);
         else progress++;
 
-        if(password.length()==6)
+        if(password.length()>5)
             progress++;
         else view.onError(R.string.password_length, 3);
         if(progress == 3)

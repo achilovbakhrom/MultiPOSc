@@ -11,6 +11,8 @@ import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.utils.RxBus;
+import com.jim.multipos.utils.rxevents.admin_auth_events.InfoEvent;
+import com.jim.multipos.utils.rxevents.admin_auth_events.OnBackEvent;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -55,6 +57,11 @@ public class InfoFragment extends BaseFragment implements InfoView{
         presenter.sendUserDetails(mail, password, etFirstName.getText().toString(),
                 etLastName.getText().toString(), gender, etDatePicker.getText().toString(),
                 country, etPrimary_email.getText().toString(), etPrimary_phone.getText().toString());
+    }
+
+    @OnClick(R.id.backBtn)
+    public void onBackClick(View view){
+        bus.send(new OnBackEvent());
     }
 
     @OnClick({R.id.maleCheckBox, R.id.femaleCheckBox})
@@ -126,8 +133,8 @@ public class InfoFragment extends BaseFragment implements InfoView{
     }
 
     @Override
-    public void onSuccess() {
-        Toast.makeText(getContext(), "success", Toast.LENGTH_LONG).show();
+    public void onSuccess(String mail) {
+        bus.send(new InfoEvent(mail));
     }
 
     @Override
@@ -135,4 +142,14 @@ public class InfoFragment extends BaseFragment implements InfoView{
         Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
     }
 
+    @Override
+    public void onError(int error) {
+        etPrimary_email.setError(getString(error));
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        presenter.onDestroy();
+    }
 }

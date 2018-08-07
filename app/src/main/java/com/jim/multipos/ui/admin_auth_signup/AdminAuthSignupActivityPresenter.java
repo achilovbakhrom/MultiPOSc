@@ -4,6 +4,5 @@ import com.jim.multipos.core.Presenter;
 import com.jim.multipos.data.network.model.Signup;
 
 public interface AdminAuthSignupActivityPresenter extends Presenter{
-    void sendAdminDetails(Signup signup);
-    void confirm(String mail, int code);
+
 }
