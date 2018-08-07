@@ -73,6 +73,14 @@ public abstract class BaseActivity extends AppCompatActivity implements HasSuppo
                 .commit();
     }
 
+    protected final void replaceFragmentWithBackStack(@IdRes int containerViewId, Fragment fragment) {
+        if (fragment.isAdded()) return;
+        activityFragmentManager.beginTransaction()
+                .replace(containerViewId, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
     protected final void addFragmentWithTag(@IdRes int containerViewId, Fragment fragment, String tag) {
         if (fragment.isAdded()) return;
 

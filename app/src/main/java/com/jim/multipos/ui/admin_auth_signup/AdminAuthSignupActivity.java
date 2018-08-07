@@ -83,7 +83,8 @@ public class AdminAuthSignupActivity extends BaseActivity implements AdminAuthSi
     AdminAuthSignupActivityPresenter presenter;
     @Inject
     RxBus bus;
-    CompositeDisposable disposable = new CompositeDisposable();
+    @Inject
+    CompositeDisposable disposable;
 
     String mail, password;
     String fn, ln, gender, dob, country, primary_email, primary_phone;
@@ -217,16 +218,11 @@ public class AdminAuthSignupActivity extends BaseActivity implements AdminAuthSi
                 bundle.putString("mail", mail);
                 bundle.putString("pass", password);
                 fragment.setArguments(bundle);
-                addFragmentWithBackStack(R.id.fragment_container, fragment);
+                replaceFragmentWithBackStack(R.id.fragment_container, fragment);
             }
             if(o instanceof InfoEvent){
                 fn = ((InfoEvent) o).getFirstName();
-                ln = ((InfoEvent) o).getLastName();
-                gender = ((InfoEvent) o).getGender();
-                dob = ((InfoEvent) o).getDob();
-                country = ((InfoEvent) o).getCountry();
-                primary_email = ((InfoEvent) o).getPrimary_email();
-                primary_phone = ((InfoEvent) o).getPrimary_phone();
+
             }
 
         }));

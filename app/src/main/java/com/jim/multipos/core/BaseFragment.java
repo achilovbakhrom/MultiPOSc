@@ -58,7 +58,7 @@ public abstract class BaseFragment extends Fragment implements HasSupportFragmen
         View view = inflater.inflate(getLayout(), container, false);
         unbinder = ButterKnife.bind(this, view);
         rxConnections();
-        init(savedInstanceState);
+        init(getArguments());
         return view;
     }
 

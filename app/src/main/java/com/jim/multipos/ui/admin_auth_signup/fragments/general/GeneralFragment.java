@@ -66,7 +66,8 @@ public class GeneralFragment extends BaseFragment implements GeneralView{
     public void onError(int error, int type) {
         if(type == 1)
             etLogin.setError(getString(error));
-        else etConfirmPassword.setError(getString(error));
+        else if(type == 2) etConfirmPassword.setError(getString(error));
+        else etPassword.setError(getString(error));
     }
 
 }

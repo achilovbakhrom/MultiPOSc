@@ -35,7 +35,7 @@ public abstract class BaseAppModule {
 
     @Singleton
     @Provides
-    CompositeDisposable provideCompositeDisposable() {
+    static CompositeDisposable provideCompositeDisposable() {
         return new CompositeDisposable();
     }
 
