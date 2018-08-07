@@ -8,7 +8,7 @@ import com.jim.multipos.R;
 
 import butterknife.ButterKnife;
 
-public class DoubleSideAdminActivity extends BaseActivity {
+public abstract class DoubleSideAdminActivity extends BaseActivity {
 
 
     @Override

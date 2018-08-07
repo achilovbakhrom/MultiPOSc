@@ -198,7 +198,6 @@
             android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".ui.reports_admin.ReportsAdminActivity" />
         <activity android:name=".ui.admin_auth_signup.AdminAuthSignupActivity" />
-        <activity android:name=".core.DoubleSideAdminActivity" />
         <activity android:name=".ui.admin_main_page.AdminMainPageActivity" />
         <activity android:name=".ui.admin_auth_signin.AdminAuthSigninActivity" />
 

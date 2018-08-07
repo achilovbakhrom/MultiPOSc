@@ -3,6 +3,9 @@ package com.jim.multipos.core;
 import android.os.Bundle;
 
 import javax.annotation.Nullable;
+import javax.inject.Inject;
+
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by bakhrom on 10/3/17.
@@ -11,6 +14,9 @@ import javax.annotation.Nullable;
 public class BasePresenterImpl<T extends BaseView> implements Presenter {
 
     protected final T view;
+
+    @Inject
+    CompositeDisposable disposable;
 
     protected BasePresenterImpl(T t) {
         this.view = t;
@@ -38,11 +44,15 @@ public class BasePresenterImpl<T extends BaseView> implements Presenter {
 
     @Override
     public void onDestroy() {
-
+        disposable.dispose();
     }
 
     @Override
     public void onCreateView(Bundle bundle) {
 
+    }
+
+    public CompositeDisposable getDisposable() {
+        return disposable;
     }
 }

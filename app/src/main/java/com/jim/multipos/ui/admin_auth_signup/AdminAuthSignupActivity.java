@@ -2,17 +2,20 @@ package com.jim.multipos.ui.admin_auth_signup;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseActivity;
 import com.jim.multipos.data.network.MultiPosApiService;
 import com.jim.multipos.data.network.model.SignupResponse;
-import com.jim.multipos.ui.admin_auth_signup.fragments.ConfirmationFragment;
-import com.jim.multipos.ui.admin_auth_signup.fragments.GeneralFragment;
-import com.jim.multipos.ui.admin_auth_signup.fragments.InfoFragment;
+import com.jim.multipos.ui.admin_auth_signup.fragments.general.GeneralFragment;
+import com.jim.multipos.ui.admin_auth_signup.fragments.info.InfoFragment;
+import com.jim.multipos.utils.RxBus;
+import com.jim.multipos.utils.rxevents.admin_auth_events.GeneralEvent;
+import com.jim.multipos.utils.rxevents.admin_auth_events.InfoEvent;
 
 import javax.inject.Inject;
+
+import io.reactivex.disposables.CompositeDisposable;
 
 public class AdminAuthSignupActivity extends BaseActivity implements AdminAuthSignupActivityView {
 
@@ -78,6 +81,12 @@ public class AdminAuthSignupActivity extends BaseActivity implements AdminAuthSi
     MultiPosApiService service;
     @Inject
     AdminAuthSignupActivityPresenter presenter;
+    @Inject
+    RxBus bus;
+    CompositeDisposable disposable = new CompositeDisposable();
+
+    String mail, password;
+    String fn, ln, gender, dob, country, primary_email, primary_phone;
 
     int state = 1;
 //
@@ -197,15 +206,39 @@ public class AdminAuthSignupActivity extends BaseActivity implements AdminAuthSi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_registration_layout);
         addFragment(R.id.fragment_container, new GeneralFragment());
-        findViewById(R.id.nextBtn).setOnClickListener((a) -> {
-            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-            if (fragment instanceof GeneralFragment) {
-                fragment = new InfoFragment();
-            } else if (fragment instanceof InfoFragment) {
-                fragment = new ConfirmationFragment();
+
+        disposable.add(bus.toObservable().subscribe(o -> {
+            if(o instanceof GeneralEvent){
+                mail = ((GeneralEvent) o).getUsername();
+                password = ((GeneralEvent) o).getPassword();
+
+                InfoFragment fragment = new InfoFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("mail", mail);
+                bundle.putString("pass", password);
+                fragment.setArguments(bundle);
+                addFragmentWithBackStack(R.id.fragment_container, fragment);
             }
-            addFragmentWithBackStack(R.id.fragment_container, fragment);
-        });
+            if(o instanceof InfoEvent){
+                fn = ((InfoEvent) o).getFirstName();
+                ln = ((InfoEvent) o).getLastName();
+                gender = ((InfoEvent) o).getGender();
+                dob = ((InfoEvent) o).getDob();
+                country = ((InfoEvent) o).getCountry();
+                primary_email = ((InfoEvent) o).getPrimary_email();
+                primary_phone = ((InfoEvent) o).getPrimary_phone();
+            }
+
+        }));
+//        findViewById(R.id.nextBtn).setOnClickListener((a) -> {
+//            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+//            if (fragment instanceof GeneralFragment) {
+//                fragment = new InfoFragment();
+//            } else if (fragment instanceof InfoFragment) {
+//                fragment = new ConfirmationFragment();
+//            }
+//            addFragmentWithBackStack(R.id.fragment_container, fragment);
+//        });
 //        ButterKnife.bind(this);
 
 //        color = tvGeneral.getCurrentTextColor();

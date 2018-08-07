@@ -110,7 +110,6 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
     private ArrayList<Disposable> subscriptions;
 
     @Override
-
     protected void rxConnections() {
         subscriptions = new ArrayList<>();
         subscriptions.add(

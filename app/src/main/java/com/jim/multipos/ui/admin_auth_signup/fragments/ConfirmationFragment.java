@@ -13,7 +13,7 @@ import com.jim.multipos.core.BaseFragment;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ConfirmationFragment extends BaseFragment {
+public class ConfirmationFragment extends Fragment {
 
 
     public ConfirmationFragment() {
@@ -28,14 +28,14 @@ public class ConfirmationFragment extends BaseFragment {
         return inflater.inflate(R.layout.fragment_confirmation, container, false);
     }
 
-    @Override
-    protected int getLayout() {
-        return 0;
-    }
-
-    @Override
-    protected void init(Bundle savedInstanceState) {
-
-    }
+//    @Override
+//    protected int getLayout() {
+//        return 0;
+//    }
+//
+//    @Override
+//    protected void init(Bundle savedInstanceState) {
+//
+//    }
 
 }

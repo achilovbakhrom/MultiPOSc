@@ -22,6 +22,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by DEV on 27.07.2017.
@@ -31,6 +32,12 @@ public abstract class BaseAppModule {
 
 
     abstract Application BaseAppModule(MultiPosApp app);
+
+    @Singleton
+    @Provides
+    CompositeDisposable provideCompositeDisposable() {
+        return new CompositeDisposable();
+    }
 
     @Provides
     @Singleton
