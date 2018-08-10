@@ -2,11 +2,13 @@ package com.jim.multipos.ui.admin_main_page.fragments.company;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jim.multipos.R;
@@ -49,7 +51,13 @@ public class CompanyInfoAdapter extends RecyclerView.Adapter<CompanyInfoAdapter.
         });
         if (lastPos == position) {
             holder.ivCompanyCheck.setImageResource(R.drawable.company_selected);
-        } else holder.ivCompanyCheck.setImageResource(R.drawable.company_unselected);
+            holder.layout.setBackground(ContextCompat.getDrawable(context, R.drawable.cardview_border));
+            holder.tvCompanyName.setTextColor(ContextCompat.getColor(context, R.color.colorBlueSecond));
+        } else {
+            holder.ivCompanyCheck.setImageResource(R.drawable.company_unselected);
+            holder.layout.setBackgroundResource(0);
+            holder.tvCompanyName.setTextColor(holder.defColor);
+        }
     }
 
     @Override
@@ -71,10 +79,15 @@ public class CompanyInfoAdapter extends RecyclerView.Adapter<CompanyInfoAdapter.
         TextView tvCompanyDescription;
         @BindView(R.id.ivCompanyCheck)
         ImageView ivCompanyCheck;
+        @BindView(R.id.layout)
+        LinearLayout layout;
+
+        int defColor;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            defColor = tvCompanyDescription.getCurrentTextColor();
         }
     }
 }
