@@ -116,7 +116,6 @@ public class MpSpinnerTransparent extends RelativeLayout {
 
             }
         });
-
     }
 
     public int selectedItem() {

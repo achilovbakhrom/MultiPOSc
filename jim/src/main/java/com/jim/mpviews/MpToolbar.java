@@ -5,7 +5,6 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -138,123 +137,102 @@ public class MpToolbar extends RelativeLayout {
             }
             return false;
         });
-
-
-        findViewById(R.id.mpInventory).setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        if (!pressed) {
-                            pressed = true;
-                        }
-                        findViewById(R.id.inventoryLine).setVisibility(GONE);
-                        findViewById(R.id.inventoryPressed).setVisibility(VISIBLE);
-                        return false;
-                    case MotionEvent.ACTION_UP:
-                        pressed = false;
-                        findViewById(R.id.inventoryLine).setVisibility(VISIBLE);
-                        findViewById(R.id.inventoryPressed).setVisibility(GONE);
-                        return false;
-                }
-                return false;
+        findViewById(R.id.mpInventory).setOnTouchListener((view, motionEvent) -> {
+            switch (motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    if (!pressed) {
+                        pressed = true;
+                    }
+                    findViewById(R.id.inventoryLine).setVisibility(GONE);
+                    findViewById(R.id.inventoryPressed).setVisibility(VISIBLE);
+                    return false;
+                case MotionEvent.ACTION_UP:
+                    pressed = false;
+                    findViewById(R.id.inventoryLine).setVisibility(VISIBLE);
+                    findViewById(R.id.inventoryPressed).setVisibility(GONE);
+                    return false;
             }
+            return false;
         });
-
-
-        findViewById(R.id.mpCustomers).setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        if (!pressed) {
-                            pressed = true;
-                        }
-                        findViewById(R.id.customerLine).setVisibility(GONE);
-                        findViewById(R.id.customerPressed).setVisibility(VISIBLE);
-                        return false;
-                    case MotionEvent.ACTION_UP:
-                        pressed = false;
-                        findViewById(R.id.customerLine).setVisibility(VISIBLE);
-                        findViewById(R.id.customerPressed).setVisibility(GONE);
-                        return false;
-                }
-                return false;
+        findViewById(R.id.mpCustomers).setOnTouchListener((view, motionEvent) -> {
+            switch (motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    if (!pressed) {
+                        pressed = true;
+                    }
+                    findViewById(R.id.customerLine).setVisibility(GONE);
+                    findViewById(R.id.customerPressed).setVisibility(VISIBLE);
+                    return false;
+                case MotionEvent.ACTION_UP:
+                    pressed = false;
+                    findViewById(R.id.customerLine).setVisibility(VISIBLE);
+                    findViewById(R.id.customerPressed).setVisibility(GONE);
+                    return false;
             }
+            return false;
         });
-        findViewById(R.id.mpReports).setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        if (!pressed) {
-                            pressed = true;
-                        }
-                        findViewById(R.id.reportLine).setVisibility(GONE);
-                        findViewById(R.id.reportPressed).setVisibility(VISIBLE);
-                        return false;
-                    case MotionEvent.ACTION_UP:
-                        pressed = false;
-                        findViewById(R.id.reportLine).setVisibility(VISIBLE);
-                        findViewById(R.id.reportPressed).setVisibility(GONE);
-                        return false;
-                }
-                return false;
+        findViewById(R.id.mpReports).setOnTouchListener((view, motionEvent) -> {
+            switch (motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    if (!pressed) {
+                        pressed = true;
+                    }
+                    findViewById(R.id.reportLine).setVisibility(GONE);
+                    findViewById(R.id.reportPressed).setVisibility(VISIBLE);
+                    return false;
+                case MotionEvent.ACTION_UP:
+                    pressed = false;
+                    findViewById(R.id.reportLine).setVisibility(VISIBLE);
+                    findViewById(R.id.reportPressed).setVisibility(GONE);
+                    return false;
             }
+            return false;
         });
-        findViewById(R.id.mpInfo).setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        if (!pressed) {
-                            pressed = true;
-                        }
-                        findViewById(R.id.whiteLine).setVisibility(GONE);
-                        findViewById(R.id.infoPressed).setVisibility(VISIBLE);
-                        return false;
-                    case MotionEvent.ACTION_UP:
-                        pressed = false;
-                        findViewById(R.id.whiteLine).setVisibility(VISIBLE);
-                        findViewById(R.id.infoPressed).setVisibility(GONE);
-                        return false;
-                }
-                return false;
+        findViewById(R.id.mpInfo).setOnTouchListener((view, motionEvent) -> {
+            switch (motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    if (!pressed) {
+                        pressed = true;
+                    }
+                    findViewById(R.id.whiteLine).setVisibility(GONE);
+                    findViewById(R.id.infoPressed).setVisibility(VISIBLE);
+                    return false;
+                case MotionEvent.ACTION_UP:
+                    pressed = false;
+                    findViewById(R.id.whiteLine).setVisibility(VISIBLE);
+                    findViewById(R.id.infoPressed).setVisibility(GONE);
+                    return false;
             }
+            return false;
         });
-        findViewById(R.id.mpSearch).setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
+        findViewById(R.id.mpSearch).setOnTouchListener((view, motionEvent) -> {
+            switch (motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    pressed = false;
+                    if (!isSearchFragmentOpened) {
+                        pressed = true;
+                        onSearchClickListener.onOpen();
+                        isSearchFragmentOpened = true;
+                        findViewById(R.id.searchLine).setVisibility(GONE);
+                        findViewById(R.id.searchPressed).setVisibility(VISIBLE);
+                    }
+                    return true;
+                case MotionEvent.ACTION_UP:
+                    if (pressed) {
                         pressed = false;
-                        if (!isSearchFragmentOpened) {
-                            pressed = true;
-                            onSearchClickListener.onOpen();
-                            isSearchFragmentOpened = true;
-                            findViewById(R.id.searchLine).setVisibility(GONE);
-                            findViewById(R.id.searchPressed).setVisibility(VISIBLE);
-                        }
-                        return true;
-                    case MotionEvent.ACTION_UP:
-                        if (pressed) {
-                            pressed = false;
-                            return false;
-                        }
-                        if (isSearchFragmentOpened) {
-                            onSearchClickListener.onClose();
-                            isSearchFragmentOpened = false;
-                            findViewById(R.id.searchLine).setVisibility(VISIBLE);
-                            findViewById(R.id.searchPressed).setVisibility(GONE);
-                        }
                         return false;
-                }
-                return false;
+                    }
+                    if (isSearchFragmentOpened) {
+                        onSearchClickListener.onClose();
+                        isSearchFragmentOpened = false;
+                        findViewById(R.id.searchLine).setVisibility(VISIBLE);
+                        findViewById(R.id.searchPressed).setVisibility(GONE);
+                    }
+                    return false;
             }
+            return false;
         });
-
         findViewById(R.id.btnBack).setOnClickListener(v -> onBackArrowClick.onClick());
-
         array.recycle();
     }
 
@@ -288,7 +266,6 @@ public class MpToolbar extends RelativeLayout {
     public void setOnProductClickListener(OnClickListener productClickListener) {
         findViewById(R.id.mpProducts).setOnClickListener(productClickListener);
     }
-
 
     public void setOnInventoryClickListener(OnClickListener inventoryClickListener) {
         findViewById(R.id.mpInventory).setOnClickListener(inventoryClickListener);
@@ -537,7 +514,6 @@ public class MpToolbar extends RelativeLayout {
 
         void onClose();
     }
-
 
     public interface OnBackArrowClick {
         void onClick();
