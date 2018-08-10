@@ -3,11 +3,17 @@ package com.jim.multipos.ui.admin_main_page.di;
 import android.support.v7.app.AppCompatActivity;
 
 import com.jim.multipos.config.scope.PerActivity;
+import com.jim.multipos.config.scope.PerFragment;
 import com.jim.multipos.core.BaseActivityModule;
 import com.jim.multipos.ui.admin_main_page.AdminMainPageActivity;
+import com.jim.multipos.ui.admin_main_page.fragments.company.CompanyFragment;
+import com.jim.multipos.ui.admin_main_page.fragments.company.CompanyInfoFragment;
+import com.jim.multipos.ui.admin_main_page.fragments.company.di.CompanyFragmentModule;
+import com.jim.multipos.ui.admin_main_page.fragments.company.di.CompanyInfoFragmentModule;
 
 import dagger.Binds;
 import dagger.Module;
+import dagger.android.ContributesAndroidInjector;
 
 @Module(includes = BaseActivityModule.class)
 public abstract class AdminMainPageModule {
@@ -15,4 +21,12 @@ public abstract class AdminMainPageModule {
     @Binds
     @PerActivity
     abstract AppCompatActivity provideAdminMainPageActivity(AdminMainPageActivity adminAuthActivity);
+
+    @PerFragment
+    @ContributesAndroidInjector(modules = CompanyFragmentModule.class)
+    abstract CompanyFragment provideCompanyFragment();
+
+    @PerFragment
+    @ContributesAndroidInjector(modules = CompanyInfoFragmentModule.class)
+    abstract CompanyInfoFragment provideCompanyInfoFragment();
 }

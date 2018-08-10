@@ -7,7 +7,6 @@ import android.widget.Toast;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseActivity;
 import com.jim.multipos.data.network.MultiPosApiService;
-import com.jim.multipos.data.network.model.SignupResponse;
 import com.jim.multipos.ui.admin_auth_signup.fragments.confirmation.ConfirmationFragment;
 import com.jim.multipos.ui.admin_auth_signup.fragments.general.GeneralFragment;
 import com.jim.multipos.ui.admin_auth_signup.fragments.info.InfoFragment;
@@ -19,7 +18,9 @@ import com.jim.multipos.utils.rxevents.admin_auth_events.SuccessEvent;
 
 import javax.inject.Inject;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class AdminAuthSignupActivity extends BaseActivity implements AdminAuthSignupActivityView {
 
@@ -41,7 +42,7 @@ public class AdminAuthSignupActivity extends BaseActivity implements AdminAuthSi
         setContentView(R.layout.admin_registration_layout);
         addFragment(R.id.fragment_container, new GeneralFragment());
 
-        disposable.add(bus.toObservable().subscribe(o -> {
+        disposable.add(bus.toObservable().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
             if (o instanceof GeneralEvent) {
                 mail = ((GeneralEvent) o).getUsername();
                 password = ((GeneralEvent) o).getPassword();

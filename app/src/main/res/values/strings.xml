@@ -1541,4 +1541,5 @@
     <string name="ipcode">IPCODE</string>
     <string name="is_active">Is Active</string>
     <string name="clear">Clear</string>
+    <string name="choose_company">Choose Company</string>
 </resources>

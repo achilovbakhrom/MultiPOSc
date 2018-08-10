@@ -1,28 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
     <com.jim.mpviews.MpToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/eighty_dp" />
+        android:layout_height="@dimen/eighty_dp"
+        app:view_mode="13" />
 
-    <FrameLayout
-        android:id="@+id/flLeftContainer"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.33">
+        android:orientation="horizontal">
 
-    </FrameLayout>
+        <FrameLayout
+            android:id="@+id/flLeftContainer"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.33">
 
-    <FrameLayout
-        android:id="@+id/flRightContainer"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="0.66">
+        </FrameLayout>
 
-    </FrameLayout>
+        <ImageView
+            android:layout_width="@dimen/ten_dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/from_right_to_left_shadow" />
+
+        <FrameLayout
+            android:id="@+id/flRightContainer"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.66">
+
+        </FrameLayout>
+    </LinearLayout>
+
 
 </LinearLayout>
