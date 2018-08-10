@@ -161,6 +161,7 @@ public class MpToolbar extends RelativeLayout {
             }
         });
 
+
         findViewById(R.id.mpCustomers).setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {

@@ -501,16 +501,21 @@
             android:orientation="horizontal"
             android:visibility="gone">
 
-            <ImageButton
+
+            <TextView
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:background="@color/transparent"
-                android:src="@drawable/company_icon" />
+                android:layout_marginTop="10dp"
+                android:drawableTop="@drawable/settings_icon"
+                android:gravity="center"
+                android:text="Settings"
+                android:textColor="@android:color/white" />
+
 
             <View
-                android:layout_width="0.5dp"
+                android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/divider" />
+                android:background="#57A1D1" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -518,14 +523,16 @@
                 android:orientation="horizontal"
                 android:padding="5dp">
 
-                <com.jim.mpviews.MpRoundedImageView
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/avatar" />
+                <!--<com.jim.mpviews.MpRoundedImageView-->
+                <!--android:layout_width="100dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginStart="10dp"-->
+                <!--android:scaleType="centerCrop"-->
+                <!--android:src="@drawable/avatar" />-->
 
 
                 <com.jim.mpviews.MpSpinnerTransparent
+                    android:id="@+id/trans_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </LinearLayout>
@@ -537,117 +544,162 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.66"
+            android:gravity="center"
             android:orientation="horizontal"
             android:visibility="gone">
 
             <View
-                android:layout_width="0.5dp"
+                android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/divider" />
+                android:background="#57A1D1" />
 
-            <ImageButton
+            <TextView
                 android:id="@+id/company"
-                android:layout_width="80dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
                 android:background="@color/transparent"
-                android:src="@drawable/company_icon" />
+                android:drawableTop="@drawable/company_icon"
+                android:gravity="center"
+                android:text="Company"
+                android:textColor="@android:color/white" />
 
             <View
-                android:layout_width="0.5dp"
+                android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/divider" />
+                android:background="#57A1D1" />
 
-            <ImageButton
+            <TextView
                 android:id="@+id/dashboard"
-                android:layout_width="80dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
                 android:background="@color/transparent"
-                android:src="@drawable/dashboard_icon" />
+                android:drawableTop="@drawable/dashboard_icon"
+                android:gravity="center"
+                android:text="Dashboard"
+                android:textColor="@android:color/white" />
 
             <View
-                android:layout_width="0.5dp"
+                android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/divider" />
+                android:background="#57A1D1" />
 
-            <ImageButton
+            <TextView
                 android:id="@+id/establishment"
-                android:layout_width="80dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
                 android:background="@color/transparent"
-                android:src="@drawable/establishment_icon" />
+                android:drawableTop="@drawable/establishment_icon"
+                android:gravity="center"
+                android:text="Establishment"
+                android:textColor="@android:color/white" />
 
             <View
-                android:layout_width="0.5dp"
+                android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/divider" />
+                android:background="#57A1D1" />
 
-            <ImageButton
+            <TextView
                 android:id="@+id/entity"
-                android:layout_width="80dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
                 android:background="@color/transparent"
-                android:src="@drawable/entity_icon" />
+                android:drawableTop="@drawable/entity_icon"
+                android:gravity="center"
+                android:text="Entities"
+                android:textColor="@android:color/white" />
 
             <View
-                android:layout_width="0.5dp"
+                android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/divider" />
+                android:background="#57A1D1" />
 
-            <ImageButton
+            <TextView
                 android:id="@+id/vendor"
-                android:layout_width="80dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
                 android:background="@color/transparent"
-                android:src="@drawable/vendor_icon" />
+                android:drawableTop="@drawable/vendor_icon"
+                android:gravity="center"
+                android:text="Vendors"
+                android:textColor="@android:color/white" />
 
             <View
-                android:layout_width="0.5dp"
+                android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/divider" />
+                android:background="#57A1D1" />
 
-            <ImageButton
+            <TextView
                 android:id="@+id/inventory"
-                android:layout_width="80dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
                 android:background="@color/transparent"
-                android:src="@drawable/inventory_icon" />
+                android:drawableTop="@drawable/inventory_icon"
+                android:gravity="center"
+                android:text="Inventory"
+                android:textColor="@android:color/white" />
 
             <View
-                android:layout_width="0.5dp"
+                android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/divider" />
+                android:background="#57A1D1" />
 
-            <ImageButton
+            <TextView
                 android:id="@+id/crm"
-                android:layout_width="80dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
                 android:background="@color/transparent"
-                android:src="@drawable/crm_icon" />
+                android:drawableTop="@drawable/crm_icon"
+                android:gravity="center"
+                android:text="CRM"
+                android:textColor="@android:color/white" />
 
             <View
-                android:layout_width="0.5dp"
+                android:layout_width="1dp"
                 android:layout_height="match_parent"
+                android:background="#57A1D1" />
 
-                android:background="@color/divider" />
-
-            <ImageButton
+            <TextView
                 android:id="@+id/hrm"
-                android:layout_width="80dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
                 android:background="@color/transparent"
-                android:src="@drawable/hrm_icon" />
+                android:drawableTop="@drawable/hrm_icon"
+                android:gravity="center"
+                android:text="HRM"
+                android:textColor="@android:color/white" />
 
             <View
-                android:layout_width="0.5dp"
+                android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/divider" />
+                android:background="#57A1D1" />
 
-            <ImageButton
+            <TextView
                 android:id="@+id/report"
-                android:layout_width="80dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
                 android:background="@color/transparent"
-                android:src="@drawable/report_icon" />
+                android:drawableTop="@drawable/report_icon"
+                android:gravity="center"
+                android:text="Reports"
+                android:textColor="@android:color/white" />
         </LinearLayout>
 
     </LinearLayout>

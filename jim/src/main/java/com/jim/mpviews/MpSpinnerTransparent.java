@@ -76,7 +76,7 @@ public class MpSpinnerTransparent extends RelativeLayout {
         roleList = new ArrayList<>();
         photoList = new ArrayList<>();
 //        linearLayout.setBackgroundResource(attributeArray.getResourceId(R.styleable.MpSpinner_sp_bg, R.drawable.edit_text_bg));
-        imageView.setImageResource(attributeArray.getResourceId(R.styleable.MpSpinner_img_color, R.drawable.triangle));
+        imageView.setImageResource(attributeArray.getResourceId(R.styleable.MpSpinner_img_color, R.drawable.white_arrow));
         setOnClickListener(view -> spinner.performClick());
 
     }

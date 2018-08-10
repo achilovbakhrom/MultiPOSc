@@ -27,11 +27,10 @@
 
         <ImageView
             android:id="@+id/mpSpIcon"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginRight="@dimen/ten_dp"
             android:paddingRight="@dimen/ten_dp"
-            android:src="@drawable/triangle" />
+            android:src="@drawable/white_arrow" />
     </LinearLayout>
 </merge>
