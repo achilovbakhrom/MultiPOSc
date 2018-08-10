@@ -1,7 +1,9 @@
 package com.jim.multipos.ui.admin_main_page;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.jim.mpviews.MpSpinnerTransparent;
 import com.jim.mpviews.MpToolbar;
@@ -22,5 +24,19 @@ public class AdminMainPageActivity extends DoubleSideAdminActivity {
         ((MpSpinnerTransparent) findViewById(R.id.trans_spinner)).setItems(new String[]{"John John", "Shean Shean"}, new String[]{"1", "2"}, new String[]{"123"});
         ((MpSpinnerTransparent) findViewById(R.id.trans_spinner)).setAdapter();
 
+    }
+
+    public void onClick(final View view) {
+        ///this method is just for color the views
+        colorViews(view);
+        ////write fragment transaction logic here based on view id
+    }
+
+    private void colorViews(final View view) {
+        if (lasPos != -1) {
+            findViewById(lasPos).setBackgroundColor(getResources().getColor(R.color.colorBlueSecond));
+        }
+        view.setBackgroundColor(Color.parseColor("#57A1D1"));
+        lasPos = view.getId();
     }
 }

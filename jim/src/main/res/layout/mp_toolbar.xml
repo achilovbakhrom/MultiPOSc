@@ -502,12 +502,20 @@
             android:orientation="horizontal"
             android:visibility="gone">
 
-
-            <android.support.v7.widget.AppCompatImageView
+            <FrameLayout
+                android:id="@+id/settings_container"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_margin="20dp"
-                app:srcCompat="@drawable/settings_icon" />
+                android:onClick="onClick"
+                android:padding="20dp">
+
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/settings_icon" />
+            </FrameLayout>
 
 
             <View
@@ -515,25 +523,10 @@
                 android:layout_height="match_parent"
                 android:background="#57A1D1" />
 
-            <LinearLayout
+            <com.jim.mpviews.MpSpinnerTransparent
+                android:id="@+id/trans_spinner"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:padding="5dp">
-
-                <!--<com.jim.mpviews.MpRoundedImageView-->
-                <!--android:layout_width="100dp"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_marginStart="10dp"-->
-                <!--android:scaleType="centerCrop"-->
-                <!--android:src="@drawable/avatar" />-->
-
-
-                <com.jim.mpviews.MpSpinnerTransparent
-                    android:id="@+id/trans_spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
+                android:layout_height="match_parent" />
 
         </LinearLayout>
 
@@ -542,7 +535,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.66"
-            android:gravity="center"
+            android:gravity="bottom"
             android:orientation="horizontal"
             android:visibility="gone">
 
@@ -551,171 +544,252 @@
                 android:layout_height="match_parent"
                 android:background="#57A1D1" />
 
-            <TextView
-                android:id="@+id/company"
+
+            <FrameLayout
+                android:id="@+id/company_container"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:background="@color/transparent"
-                android:drawablePadding="-20dp"
-                android:drawableTop="@drawable/company_icon"
-                android:gravity="center"
-                android:text="Company"
-                android:textColor="@android:color/white"
-                android:textSize="12sp" />
+                android:onClick="onClick"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:id="@+id/company"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/transparent"
+                    android:drawablePadding="-20dp"
+                    android:drawableTop="@drawable/company_icon"
+                    android:gravity="center"
+                    android:text="Company"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+            </FrameLayout>
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="#57A1D1" />
 
-            <TextView
-                android:id="@+id/dashboard"
+            <FrameLayout
+                android:id="@+id/dashboard_container"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:background="@color/transparent"
-                android:drawablePadding="-20dp"
-                android:drawableTop="@drawable/dashboard_icon"
-                android:gravity="center"
-                android:text="Dashboard"
-                android:textColor="@android:color/white"
-                android:textSize="12sp" />
+                android:onClick="onClick"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:id="@+id/dashboard"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/transparent"
+                    android:drawablePadding="-20dp"
+                    android:drawableTop="@drawable/dashboard_icon"
+                    android:gravity="center"
+                    android:text="Dashboard"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+            </FrameLayout>
+
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="#57A1D1" />
 
-            <TextView
-                android:id="@+id/establishment"
+            <FrameLayout
+                android:id="@+id/establishment_container"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:background="@color/transparent"
-                android:drawablePadding="-20dp"
-                android:drawableTop="@drawable/establishment_icon"
-                android:gravity="center"
-                android:text="Establishment"
-                android:textColor="@android:color/white"
-                android:textSize="12sp" />
+                android:onClick="onClick"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:id="@+id/establishment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/transparent"
+                    android:drawablePadding="-20dp"
+                    android:drawableTop="@drawable/establishment_icon"
+                    android:gravity="center"
+                    android:text="Establishment"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+            </FrameLayout>
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="#57A1D1" />
 
-            <TextView
-                android:id="@+id/entity"
+            <FrameLayout
+                android:id="@+id/entity_container"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:background="@color/transparent"
-                android:drawablePadding="-20dp"
-                android:drawableTop="@drawable/entity_icon"
-                android:gravity="center"
-                android:text="Entities"
-                android:textColor="@android:color/white"
-                android:textSize="12sp" />
+                android:onClick="onClick"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:id="@+id/entity"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/transparent"
+                    android:drawablePadding="-20dp"
+                    android:drawableTop="@drawable/entity_icon"
+                    android:gravity="center"
+                    android:text="Entities"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+
+            </FrameLayout>
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="#57A1D1" />
 
-            <TextView
-                android:id="@+id/vendor"
+            <FrameLayout
+                android:id="@+id/vendor_container"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:background="@color/transparent"
-                android:drawablePadding="-20dp"
-                android:drawableTop="@drawable/vendor_icon"
-                android:gravity="center"
-                android:text="Vendors"
-                android:textColor="@android:color/white"
-                android:textSize="12sp" />
+                android:onClick="onClick"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:id="@+id/vendor"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/transparent"
+                    android:drawablePadding="-20dp"
+                    android:drawableTop="@drawable/vendor_icon"
+                    android:gravity="center"
+                    android:text="Vendors"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+
+            </FrameLayout>
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="#57A1D1" />
 
-            <TextView
-                android:id="@+id/inventory"
+            <FrameLayout
+                android:id="@+id/inventory_container"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:background="@color/transparent"
-                android:drawablePadding="-20dp"
-                android:drawableTop="@drawable/inventory_icon"
-                android:gravity="center"
-                android:text="Inventory"
-                android:textColor="@android:color/white"
-                android:textSize="12sp" />
+                android:onClick="onClick"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:id="@+id/inventory"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/transparent"
+                    android:drawablePadding="-20dp"
+                    android:drawableTop="@drawable/inventory_icon"
+                    android:gravity="center"
+                    android:text="Inventory"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+
+            </FrameLayout>
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="#57A1D1" />
 
-            <TextView
-                android:id="@+id/crm"
+            <FrameLayout
+                android:id="@+id/crm_container"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:background="@color/transparent"
-                android:drawablePadding="-20dp"
-                android:drawableTop="@drawable/crm_icon"
-                android:gravity="center"
-                android:text="CRM"
-                android:textColor="@android:color/white"
-                android:textSize="12sp" />
+                android:onClick="onClick"
+                android:paddingTop="10dp">
+
+
+                <TextView
+                    android:id="@+id/crm"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/transparent"
+                    android:drawablePadding="-20dp"
+                    android:drawableTop="@drawable/crm_icon"
+                    android:gravity="center"
+                    android:text="CRM"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+            </FrameLayout>
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="#57A1D1" />
 
-            <TextView
-                android:id="@+id/hrm"
+            <FrameLayout
+                android:id="@+id/hrm_container"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:background="@color/transparent"
-                android:drawablePadding="-20dp"
-                android:drawableTop="@drawable/hrm_icon"
-                android:gravity="center"
-                android:text="HRM"
-                android:textColor="@android:color/white"
-                android:textSize="12sp" />
+                android:onClick="onClick"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:id="@+id/hrm"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/transparent"
+                    android:drawablePadding="-20dp"
+                    android:drawableTop="@drawable/hrm_icon"
+                    android:gravity="center"
+                    android:text="HRM"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+
+            </FrameLayout>
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="#57A1D1" />
 
-            <TextView
-                android:id="@+id/report"
+            <FrameLayout
+                android:id="@+id/report_container"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:background="@color/transparent"
-                android:drawablePadding="-20dp"
-                android:drawableTop="@drawable/report_icon"
-                android:gravity="center"
-                android:text="Reports"
-                android:textColor="@android:color/white"
-                android:textSize="12sp" />
+                android:onClick="onClick"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:id="@+id/report"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/transparent"
+                    android:drawablePadding="-20dp"
+                    android:drawableTop="@drawable/report_icon"
+                    android:gravity="center"
+                    android:text="Reports"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+
+            </FrameLayout>
+
         </LinearLayout>
 
     </LinearLayout>
