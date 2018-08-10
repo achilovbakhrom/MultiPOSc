@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.terrakok.phonematter:phonematter-1.0">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/phonematter-1.0.aar/93cc696b166a9fd1c8f05bb9e0fc72bb/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/phonematter-1.0.aar/93cc696b166a9fd1c8f05bb9e0fc72bb/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/phonematter-1.0.aar/49fbc496de2ec012ad234a0a0e2faa1b/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/phonematter-1.0.aar/49fbc496de2ec012ad234a0a0e2faa1b/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

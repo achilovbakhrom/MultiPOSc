@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.mjdev:libaums-0.5.5">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/libaums-0.5.5.aar/833284d785a9bb426b7794370a9d9aea/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/libaums-0.5.5.aar/833284d785a9bb426b7794370a9d9aea/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/libaums-0.5.5.aar/7c9ea27de9ad819fa9d4c0f5c3f5ed72/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/libaums-0.5.5.aar/7c9ea27de9ad819fa9d4c0f5c3f5ed72/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
