@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginEnd="@dimen/thirty_dp">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -12,8 +13,139 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/ten_dp"
+            android:text="@string/add_company"
             android:textColor="@color/colorBlueSecond"/>
+
     </android.support.v7.widget.CardView>
 
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_company_photo"
+        android:layout_marginTop="@dimen/thirty_dp"
+        android:layout_marginStart="@dimen/fourty_dp"
+        android:layout_marginBottom="@dimen/fifteen_dp"/>
+
+    <ImageView
+        android:id="@+id/ivAddCompanyPhoto"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/currency"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/company_name"
+        android:layout_marginTop="@dimen/thirty_dp"
+        android:layout_marginStart="@dimen/fourty_dp"
+        android:layout_marginBottom="@dimen/fifteen_dp"/>
+
+    <com.jim.mpviews.MpEditText
+        android:id="@+id/etCompanyName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/twenty_five_dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/company_id"
+        android:layout_marginTop="@dimen/fifteen_dp"
+        android:layout_marginStart="@dimen/fourty_dp"
+        android:layout_marginBottom="@dimen/fifteen_dp"/>
+
+    <com.jim.mpviews.MpEditText
+        android:id="@+id/etCompanyID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/twenty_five_dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/address"
+        android:layout_marginTop="@dimen/fifteen_dp"
+        android:layout_marginStart="@dimen/fourty_dp"
+        android:layout_marginBottom="@dimen/fifteen_dp"/>
+
+    <com.jim.mpviews.MpEditText
+        android:id="@+id/etCompanyAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/twenty_five_dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ipcode"
+        android:layout_marginTop="@dimen/fifteen_dp"
+        android:layout_marginStart="@dimen/fourty_dp"
+        android:layout_marginBottom="@dimen/fifteen_dp"/>
+
+    <com.jim.mpviews.MpEditText
+        android:id="@+id/etIPCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/twenty_five_dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="@dimen/fourty_dp"
+        android:layout_marginTop="@dimen/fifteen_dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/is_active"/>
+
+        <Switch
+            android:id="@+id/isActive"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/description"
+        android:layout_marginTop="@dimen/fifteen_dp"
+        android:layout_marginStart="@dimen/fourty_dp"
+        android:layout_marginBottom="@dimen/fifteen_dp"/>
+
+    <com.jim.mpviews.MpEditText
+        android:id="@+id/etDescription"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/seventy_dp"
+        android:layout_marginStart="@dimen/twenty_five_dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/twenty_dp"
+        android:paddingTop="@dimen/three_dp"
+        android:background="@color/colorGreySecondaryDark"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:layout_weight="1"
+            android:layout_marginEnd="@dimen/two_dp"
+            android:text="@string/clear"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:text="@string/save"
+            android:textColor="@color/colorBlueSecond"
+            android:layout_weight="1"/>
+    </LinearLayout>
 </LinearLayout>

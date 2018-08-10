@@ -1535,4 +1535,10 @@
     <string name="forget_password">Forget Password</string>
     <string name="sign_in">Sign In</string>
     <string name="login_with_socials">Login With Socials</string>
+    <string name="add_company">Add Company</string>
+    <string name="add_company_photo">Add Company Photo</string>
+    <string name="company_id">Company ID</string>
+    <string name="ipcode">IPCODE</string>
+    <string name="is_active">Is Active</string>
+    <string name="clear">Clear</string>
 </resources>
