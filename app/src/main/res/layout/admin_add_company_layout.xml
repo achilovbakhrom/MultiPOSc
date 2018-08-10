@@ -1,176 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <ScrollView
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/layout">
 
-        <android.support.v7.widget.CardView
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:elevation="@dimen/seven_dp">
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="@dimen/seven_dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/ten_dp"
+                    android:text="@string/add_company"
+                    android:textColor="@color/colorBlueSecond" />
+
+            </android.support.v7.widget.CardView>
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/ten_dp"
-                android:text="@string/add_company"
-                android:textColor="@color/colorBlueSecond" />
+                android:text="@string/add_company_photo"
+                android:layout_marginTop="@dimen/thirty_dp"
+                android:layout_marginStart="@dimen/fourty_dp"
+                android:layout_marginBottom="@dimen/fifteen_dp" />
 
-        </android.support.v7.widget.CardView>
+            <RelativeLayout
+                android:layout_width="@dimen/hundred_dp"
+                android:layout_height="@dimen/hundred_dp"
+                android:layout_gravity="center_horizontal">
 
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/company_icon_placeholder" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/add_company_photo"
-            android:layout_marginTop="@dimen/thirty_dp"
-            android:layout_marginStart="@dimen/fourty_dp"
-            android:layout_marginBottom="@dimen/fifteen_dp" />
-
-        <RelativeLayout
-            android:layout_width="@dimen/hundred_dp"
-            android:layout_height="@dimen/hundred_dp"
-            android:layout_gravity="center_horizontal">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/company_icon_placeholder" />
-
-            <ImageView
-                android:layout_width="@dimen/twenty_five_dp"
-                android:layout_height="@dimen/twenty_five_dp"
-                android:src="@drawable/fab_add_image"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true" />
-        </RelativeLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/company_name"
-            android:layout_marginTop="@dimen/twenty_dp"
-            android:layout_marginStart="@dimen/fourty_dp"
-            android:layout_marginBottom="@dimen/five_dp" />
-
-        <com.jim.mpviews.MpEditText
-            android:id="@+id/etCompanyName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/twenty_five_dp"
-            android:layout_marginEnd="@dimen/thirty_dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/company_id"
-            android:layout_marginTop="@dimen/ten_dp"
-            android:layout_marginStart="@dimen/fourty_dp"
-            android:layout_marginBottom="@dimen/five_dp" />
-
-        <com.jim.mpviews.MpEditText
-            android:id="@+id/etCompanyID"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/twenty_five_dp"
-            android:layout_marginEnd="@dimen/thirty_dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/address"
-            android:layout_marginTop="@dimen/ten_dp"
-            android:layout_marginStart="@dimen/fourty_dp"
-            android:layout_marginBottom="@dimen/five_dp" />
-
-        <com.jim.mpviews.MpEditText
-            android:id="@+id/etCompanyAddress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/twenty_five_dp"
-            android:layout_marginEnd="@dimen/thirty_dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ipcode"
-            android:layout_marginTop="@dimen/ten_dp"
-            android:layout_marginStart="@dimen/fourty_dp"
-            android:layout_marginBottom="@dimen/five_dp" />
-
-        <com.jim.mpviews.MpEditText
-            android:id="@+id/etIPCode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/twenty_five_dp"
-            android:layout_marginEnd="@dimen/thirty_dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginStart="@dimen/fourty_dp"
-            android:layout_marginTop="@dimen/fifteen_dp"
-            android:layout_marginEnd="@dimen/thirty_dp">
+                <ImageView
+                    android:layout_width="@dimen/twenty_five_dp"
+                    android:layout_height="@dimen/twenty_five_dp"
+                    android:src="@drawable/fab_add_image"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true" />
+            </RelativeLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="@string/is_active" />
+                android:text="@string/company_name"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:layout_marginStart="@dimen/fourty_dp"
+                android:layout_marginBottom="@dimen/five_dp" />
 
-            <Switch
-                android:id="@+id/isActive"
+            <com.jim.mpviews.MpEditText
+                android:id="@+id/etCompanyName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end" />
-        </LinearLayout>
+                android:layout_marginStart="@dimen/twenty_five_dp"
+                android:layout_marginEnd="@dimen/thirty_dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/description"
-            android:layout_marginTop="@dimen/fifteen_dp"
-            android:layout_marginStart="@dimen/fourty_dp"
-            android:layout_marginBottom="@dimen/fifteen_dp" />
-
-        <com.jim.mpviews.MpEditText
-            android:id="@+id/etDescription"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/seventy_dp"
-            android:layout_marginStart="@dimen/twenty_five_dp"
-            android:layout_marginEnd="@dimen/thirty_dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ten_dp"
-            android:background="@color/colorGreySecondaryDark"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnDelete"
-                android:layout_width="0dp"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/colorWhite"
-                android:layout_weight="1"
-                android:layout_marginEnd="@dimen/one_dp"
-                android:textColor="@color/colorRed"
-                android:text="@string/delete" />
+                android:text="@string/company_id"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:layout_marginStart="@dimen/fourty_dp"
+                android:layout_marginBottom="@dimen/five_dp" />
 
-            <Button
-                android:id="@+id/btnEdit"
-                android:layout_width="0dp"
+            <com.jim.mpviews.MpEditText
+                android:id="@+id/etCompanyID"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorWhite"
-                android:text="@string/edit"
-                android:textColor="@color/colorBlueSecond"
-                android:layout_weight="1" />
+                android:layout_marginStart="@dimen/twenty_five_dp"
+                android:layout_marginEnd="@dimen/thirty_dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/address"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:layout_marginStart="@dimen/fourty_dp"
+                android:layout_marginBottom="@dimen/five_dp" />
+
+            <com.jim.mpviews.MpEditText
+                android:id="@+id/etCompanyAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/twenty_five_dp"
+                android:layout_marginEnd="@dimen/thirty_dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ipcode"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:layout_marginStart="@dimen/fourty_dp"
+                android:layout_marginBottom="@dimen/five_dp" />
+
+            <com.jim.mpviews.MpEditText
+                android:id="@+id/etIPCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/twenty_five_dp"
+                android:layout_marginEnd="@dimen/thirty_dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/fourty_dp"
+                android:layout_marginTop="@dimen/fifteen_dp"
+                android:layout_marginEnd="@dimen/thirty_dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/is_active" />
+
+                <Switch
+                    android:id="@+id/isActive"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/description"
+                android:layout_marginTop="@dimen/fifteen_dp"
+                android:layout_marginStart="@dimen/fourty_dp"
+                android:layout_marginBottom="@dimen/fifteen_dp" />
+
+            <com.jim.mpviews.MpEditText
+                android:id="@+id/etDescription"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/seventy_dp"
+                android:layout_marginStart="@dimen/twenty_five_dp"
+                android:layout_marginEnd="@dimen/thirty_dp"
+                android:layout_marginBottom="@dimen/ten_dp" />
+
         </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorGreySecondaryDark"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:layout_weight="1"
+            android:layout_marginEnd="@dimen/one_dp"
+            android:textColor="@color/colorRed"
+            android:text="@string/delete" />
+
+        <Button
+            android:id="@+id/btnEdit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:text="@string/edit"
+            android:textColor="@color/colorBlueSecond"
+            android:layout_weight="1" />
     </LinearLayout>
-</ScrollView>
+</RelativeLayout>
