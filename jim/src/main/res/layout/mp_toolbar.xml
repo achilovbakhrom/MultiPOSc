@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -502,14 +503,11 @@
             android:visibility="gone">
 
 
-            <TextView
-                android:layout_width="80dp"
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:drawableTop="@drawable/settings_icon"
-                android:gravity="center"
-                android:text="Settings"
-                android:textColor="@android:color/white" />
+                android:layout_margin="20dp"
+                app:srcCompat="@drawable/settings_icon" />
 
 
             <View
@@ -560,10 +558,12 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:background="@color/transparent"
+                android:drawablePadding="-20dp"
                 android:drawableTop="@drawable/company_icon"
                 android:gravity="center"
                 android:text="Company"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
 
             <View
                 android:layout_width="1dp"
@@ -577,10 +577,12 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:background="@color/transparent"
+                android:drawablePadding="-20dp"
                 android:drawableTop="@drawable/dashboard_icon"
                 android:gravity="center"
                 android:text="Dashboard"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
 
             <View
                 android:layout_width="1dp"
@@ -594,10 +596,12 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:background="@color/transparent"
+                android:drawablePadding="-20dp"
                 android:drawableTop="@drawable/establishment_icon"
                 android:gravity="center"
                 android:text="Establishment"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
 
             <View
                 android:layout_width="1dp"
@@ -611,10 +615,12 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:background="@color/transparent"
+                android:drawablePadding="-20dp"
                 android:drawableTop="@drawable/entity_icon"
                 android:gravity="center"
                 android:text="Entities"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
 
             <View
                 android:layout_width="1dp"
@@ -628,10 +634,12 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:background="@color/transparent"
+                android:drawablePadding="-20dp"
                 android:drawableTop="@drawable/vendor_icon"
                 android:gravity="center"
                 android:text="Vendors"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
 
             <View
                 android:layout_width="1dp"
@@ -645,10 +653,12 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:background="@color/transparent"
+                android:drawablePadding="-20dp"
                 android:drawableTop="@drawable/inventory_icon"
                 android:gravity="center"
                 android:text="Inventory"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
 
             <View
                 android:layout_width="1dp"
@@ -662,10 +672,12 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:background="@color/transparent"
+                android:drawablePadding="-20dp"
                 android:drawableTop="@drawable/crm_icon"
                 android:gravity="center"
                 android:text="CRM"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
 
             <View
                 android:layout_width="1dp"
@@ -679,10 +691,12 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:background="@color/transparent"
+                android:drawablePadding="-20dp"
                 android:drawableTop="@drawable/hrm_icon"
                 android:gravity="center"
                 android:text="HRM"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
 
             <View
                 android:layout_width="1dp"
@@ -696,10 +710,12 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:background="@color/transparent"
+                android:drawablePadding="-20dp"
                 android:drawableTop="@drawable/report_icon"
                 android:gravity="center"
                 android:text="Reports"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
         </LinearLayout>
 
     </LinearLayout>
