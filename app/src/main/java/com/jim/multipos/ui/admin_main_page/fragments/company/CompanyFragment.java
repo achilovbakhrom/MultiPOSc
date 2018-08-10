@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.admin_main_page.fragments.company;
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.text.method.KeyListener;
 import android.view.View;
 import android.widget.Button;
@@ -93,6 +94,7 @@ public class CompanyFragment extends BaseFragment {
         setEditable(false);
         btnEdit.setText(getString(R.string.edit));
         btnDelete.setText(getString(R.string.delete));
+        btnDelete.setTextColor(ContextCompat.getColor(getContext(), R.color.colorRed));
     }
 
     private void onSaveClicked() {
@@ -103,6 +105,7 @@ public class CompanyFragment extends BaseFragment {
         setEditable(true);
         btnEdit.setText(getString(R.string.save));
         btnDelete.setText(getString(R.string.cancel));
+        btnDelete.setTextColor(ContextCompat.getColor(getContext(), R.color.colorGreySecondaryDark));
     }
 
     public void setEditable(boolean mode) {
