@@ -21,13 +21,12 @@ import dagger.android.HasServiceInjector;
  * Created by DEV on 27.07.2017.
  */
 
-public class MultiPosApp extends MultiDexApplication implements HasActivityInjector,HasServiceInjector{
+public class MultiPosApp extends MultiDexApplication implements HasActivityInjector, HasServiceInjector {
 
     @Override
     public void onCreate() {
         super.onCreate();
         DaggerAppComponent.builder().application(this).build().inject(this);
-
     }
 
     public BaseAppComponent getBaseAppComponent() {

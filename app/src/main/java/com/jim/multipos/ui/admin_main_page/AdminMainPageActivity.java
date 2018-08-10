@@ -14,6 +14,8 @@ import com.jim.multipos.ui.admin_main_page.fragments.company.CompanyInfoFragment
 
 public class AdminMainPageActivity extends DoubleSideAdminActivity {
 
+    private int lasPos = -1;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +31,7 @@ public class AdminMainPageActivity extends DoubleSideAdminActivity {
     public void onClick(final View view) {
         ///this method is just for color the views
         colorViews(view);
+
         ////write fragment transaction logic here based on view id
     }
 
