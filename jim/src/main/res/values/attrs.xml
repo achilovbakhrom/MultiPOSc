@@ -178,4 +178,12 @@
         <attr name="bwi_img_color" format="color" />
         <attr name="bwi_txt_color" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="MpCircleWithText">
+        <attr name="circle_text" format="string" />
+        <attr name="textSize" format="float" />
+        <attr name="circleBackColor" format="color" />
+        <attr name="circleFrontColor" format="color" />
+        <attr name="textColor" format="color" />
+    </declare-styleable>
 </resources>

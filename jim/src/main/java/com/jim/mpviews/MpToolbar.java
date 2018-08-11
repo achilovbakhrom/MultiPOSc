@@ -308,6 +308,14 @@ public class MpToolbar extends RelativeLayout {
         findViewById(R.id.mpInfo).setOnClickListener(infoClickListener);
     }
 
+    public void setOnDashboardClickListener(OnClickListener listener) {
+        findViewById(R.id.dashboard_container).setOnClickListener(listener);
+    }
+
+    public void setOnCompanyClickListener(OnClickListener listener) {
+        findViewById(R.id.company_container).setOnClickListener(listener);
+    }
+
     public void setMode(int mode) {
         this.mode = mode;
         setVisibility();
@@ -434,7 +442,6 @@ public class MpToolbar extends RelativeLayout {
                 findViewById(R.id.tvMPCenter).setVisibility(GONE);
                 mpLeftSide.setVisibility(GONE);
                 rlBackgroun.setVisibility(GONE);
-
                 mpRightSide.setVisibility(GONE);
                 mpMainMenu.setVisibility(GONE);
                 mpSettings.setVisibility(GONE);
