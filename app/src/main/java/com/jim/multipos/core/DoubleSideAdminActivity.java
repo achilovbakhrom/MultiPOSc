@@ -26,16 +26,16 @@ public abstract class DoubleSideAdminActivity extends BaseActivity {
     protected final void openComapnyFragment(Fragment leftFragment, Fragment rightFragment) {
         findViewById(R.id.company_fr_container).setVisibility(View.VISIBLE);
         findViewById(R.id.dashboard_fr_container).setVisibility(View.GONE);
-        addFragment(R.id.flLeftContainer, leftFragment);
-        addFragment(R.id.flRightContainer, rightFragment);
+        replaceFragment(R.id.flLeftContainer, leftFragment);
+        replaceFragment(R.id.flRightContainer, rightFragment);
     }
 
     protected final void openDashboardFragment(Fragment top, Fragment left, Fragment right) {
         findViewById(R.id.company_fr_container).setVisibility(View.GONE);
         findViewById(R.id.dashboard_fr_container).setVisibility(View.VISIBLE);
-        addFragment(R.id.dashboard_topContainer, top);
-        addFragment(R.id.dashboard_leftContainer, left);
-        addFragment(R.id.dashboard_rightContainer, right);
+        replaceFragment(R.id.dashboard_topContainer, top);
+        replaceFragment(R.id.dashboard_leftContainer, left);
+        replaceFragment(R.id.dashboard_rightContainer, right);
     }
 
 }
