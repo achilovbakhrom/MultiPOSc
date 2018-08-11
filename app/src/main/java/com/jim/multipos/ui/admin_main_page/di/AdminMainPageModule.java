@@ -10,6 +10,12 @@ import com.jim.multipos.ui.admin_main_page.fragments.company.CompanyFragment;
 import com.jim.multipos.ui.admin_main_page.fragments.company.CompanyInfoFragment;
 import com.jim.multipos.ui.admin_main_page.fragments.company.di.CompanyFragmentModule;
 import com.jim.multipos.ui.admin_main_page.fragments.company.di.CompanyInfoFragmentModule;
+import com.jim.multipos.ui.admin_main_page.fragments.dashboard.DashboardMainFragment;
+import com.jim.multipos.ui.admin_main_page.fragments.dashboard.OrdersFragment;
+import com.jim.multipos.ui.admin_main_page.fragments.dashboard.PosFragment;
+import com.jim.multipos.ui.admin_main_page.fragments.dashboard.di.DashBoardMainModule;
+import com.jim.multipos.ui.admin_main_page.fragments.dashboard.di.OrderModule;
+import com.jim.multipos.ui.admin_main_page.fragments.dashboard.di.PosModule;
 
 import dagger.Binds;
 import dagger.Module;
@@ -29,4 +35,16 @@ public abstract class AdminMainPageModule {
     @PerFragment
     @ContributesAndroidInjector(modules = CompanyInfoFragmentModule.class)
     abstract CompanyInfoFragment provideCompanyInfoFragment();
+
+    @PerFragment
+    @ContributesAndroidInjector(modules = DashBoardMainModule.class)
+    abstract DashboardMainFragment provideDashboardMainFragment();
+
+    @PerFragment
+    @ContributesAndroidInjector(modules = OrderModule.class)
+    abstract OrdersFragment provideOrdersFragment();
+
+    @PerFragment
+    @ContributesAndroidInjector(modules = PosModule.class)
+    abstract PosFragment providePosFragment();
 }

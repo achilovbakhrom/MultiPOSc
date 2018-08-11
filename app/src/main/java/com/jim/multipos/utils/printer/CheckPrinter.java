@@ -10,27 +10,23 @@ import android.hardware.usb.UsbManager;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.jim.multipos.R;
 import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.order.Order;
-import com.jim.multipos.data.db.model.order.OrderProduct;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
 import com.jim.multipos.utils.CyrillicLatinConverter;
 import com.zj.usbsdk.UsbController;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
-import com.jim.multipos.R;
 
 /**
  * Created by Sirojiddin on 29.01.2018.
@@ -141,7 +137,7 @@ public class CheckPrinter {
             //ORDER №: 12         17:50 27/02/2017
             sendDataString(String.format("%-20.20s",parent.getString(R.string.order_number_title)+": "+String.valueOf(orderNumber))+"  "+String.format("%20.20s",simpleDateFormat.format(now)));
 
-            //POS ID: 1            Till №: 1
+            //Pos ID: 1            Till №: 1
             sendDataString(String.format("%-20.20s",parent.getString(R.string.pos_number)+": "+String.valueOf(preferencesHelper.getPosDetailPosId()))+"  "+String.format("%20.20s",parent.getString(R.string.till_number_titl)+": "+String.valueOf(tillId)));
 
             //Customer: Anvarjon   Currency: Uzs
@@ -278,7 +274,7 @@ public class CheckPrinter {
             //ORDER №: 12         17:50 27/02/2017
             sendDataString(String.format("%-20.20s",parent.getString(R.string.order_number_title)+": "+String.valueOf(1))+"  "+String.format("%20.20s",simpleDateFormat.format(new Date())));
 
-            //POS ID: 1            Till №: 17:50 27w/02/2017
+            //Pos ID: 1            Till №: 17:50 27w/02/2017
             sendDataString(String.format("%-20.20s",parent.getString(R.string.pos_number)+": "+String.valueOf(preferencesHelper.getPosDetailPosId()))+"  "+String.format("%20.20s",parent.getString(R.string.till_number_titl)+": "+String.valueOf(1)));
 
             //Customer: Anvarjon   Currency: Uzs
@@ -435,7 +431,7 @@ public class CheckPrinter {
             //ORDER №: 12         17:50 27/02/2017
             sendDataString(String.format("%-20.20s",parent.getString(R.string.order_number_title)+": "+String.valueOf(order.getId()))+"  "+String.format("%20.20s",simpleDateFormat.format(order.getCreateAt())));
 
-            //POS ID: 1            Till №: 17:50 27w/02/2017
+            //Pos ID: 1            Till №: 17:50 27w/02/2017
             sendDataString(String.format("%-20.20s",parent.getString(R.string.pos_number)+": "+String.valueOf(preferencesHelper.getPosDetailPosId()))+"  "+String.format("%20.20s",parent.getString(R.string.till_number_titl)+": "+String.valueOf(order.getTillId())));
 
             //Customer: Anvarjon   Currency: Uzs

@@ -12,6 +12,7 @@
         app:view_mode="13" />
 
     <LinearLayout
+        android:id="@+id/company_fr_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
@@ -36,6 +37,36 @@
             android:layout_weight="0.66">
 
         </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/dashboard_fr_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <FrameLayout
+            android:id="@+id/dashboard_topContainer"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:id="@+id/dashboard_leftContainer"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.33" />
+
+            <FrameLayout
+                android:id="@+id/dashboard_rightContainer"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.66" />
+        </LinearLayout>
     </LinearLayout>
 
 

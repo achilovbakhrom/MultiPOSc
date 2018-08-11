@@ -1542,4 +1542,7 @@
     <string name="is_active">Is Active</string>
     <string name="clear">Clear</string>
     <string name="choose_company">Choose Company</string>
+    <string name="pos">POS</string>
+    <string name="card">Card</string>
+    <string name="orders">Orders</string>
 </resources>

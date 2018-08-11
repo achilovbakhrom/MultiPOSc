@@ -11,21 +11,31 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.DoubleSideAdminActivity;
 import com.jim.multipos.ui.admin_main_page.fragments.company.CompanyFragment;
 import com.jim.multipos.ui.admin_main_page.fragments.company.CompanyInfoFragment;
+import com.jim.multipos.ui.admin_main_page.fragments.dashboard.DashboardMainFragment;
+import com.jim.multipos.ui.admin_main_page.fragments.dashboard.OrdersFragment;
+import com.jim.multipos.ui.admin_main_page.fragments.dashboard.PosFragment;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class AdminMainPageActivity extends DoubleSideAdminActivity {
 
     private int lasPos = -1;
+    @BindView(R.id.toolbar)
+    MpToolbar toolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ButterKnife.bind(this);
 
-        addFragmentToLeft(new CompanyFragment());
-        addFragmentToRight(new CompanyInfoFragment());
-        ((MpToolbar) findViewById(R.id.toolbar)).setMode(MpToolbar.ADMIN_MODE);
+        openComapnyFragment(new CompanyFragment(), new CompanyInfoFragment());
+
+        toolbar.setMode(MpToolbar.ADMIN_MODE);
         ((MpSpinnerTransparent) findViewById(R.id.trans_spinner)).setItems(new String[]{"John John", "Shean Shean"}, new String[]{"1", "2"}, new String[]{"123"});
         ((MpSpinnerTransparent) findViewById(R.id.trans_spinner)).setAdapter();
-
+        toolbar.setOnCompanyClickListener(v -> openComapnyFragment(new CompanyFragment(), new CompanyInfoFragment()));
+        toolbar.setOnDashboardClickListener(v -> openDashboardFragment(new DashboardMainFragment(), new PosFragment(), new OrdersFragment()));
     }
 
     public void onClick(final View view) {

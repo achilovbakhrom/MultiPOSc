@@ -193,7 +193,7 @@ public class AppPreferencesHelper implements PreferencesHelper {
 
     @Override
     public String getOrganizationName() {
-        return mPrefs.getString(ORGANIZATION_NAME, "MULTI POS SOLUTIONS");
+        return mPrefs.getString(ORGANIZATION_NAME, "MULTI Pos SOLUTIONS");
     }
 
     @Override
