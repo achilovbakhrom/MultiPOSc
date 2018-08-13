@@ -21,7 +21,7 @@ public class MpCircleWithText extends View {
     int textColor = Color.parseColor("#4C4C4C");
     int textSize = 20;
     int size;
-    String text = "";
+    String text = "", sum = "";
     ValueAnimator mTimerAnimator;
     float sweepAngle = 0f;
     int angle;
@@ -67,15 +67,17 @@ public class MpCircleWithText extends View {
         paint.setColor(backColor);
         canvas.drawCircle(size / 2f, size / 2f, size / 2 - 10, paint);
 
-        paint.setColor(Color.RED);
+        paint.setColor(frontColor);
         canvas.drawArc(10, 10, size - 10, size - 10, 0f, sweepAngle, false, paint);
 
-        canvas.drawText(text, size / 2, size / 2, textPaint);
+        canvas.drawText(text, size / 2, (size / 2) + 20, textPaint);
+        canvas.drawText(sum, size / 2, (size / 2) - 20, textPaint);
     }
 
-    public void setPercentandText(float percent, String text) {
+    public void setPercentandText(float percent, String text, String sum) {
         angle = (int) (360 * percent / 100);
         this.text = text;
+        this.sum = sum;
         start();
     }
 
