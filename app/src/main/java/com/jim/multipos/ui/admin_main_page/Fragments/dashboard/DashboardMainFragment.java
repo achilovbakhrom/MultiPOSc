@@ -26,9 +26,9 @@ public class DashboardMainFragment extends BaseFragment {
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        revenue.setPercentandText(50, "Revenue");
-        profit.setPercentandText(70, "Profit");
-        pay_out.setPercentandText(40, "Pay Out");
-        dept.setPercentandText(80, "Dept");
+        revenue.setPercentandText(50, "Revenue", "100 000 000 000");
+        profit.setPercentandText(70, "Profit", "30 000 000");
+        pay_out.setPercentandText(40, "Pay Out", "30000");
+        dept.setPercentandText(80, "Dept", "30");
     }
 }

@@ -1,30 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.CardView
+    <ImageView
+        android:layout_width="@dimen/three_dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/from_right_to_left_shadow" />
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/ten_dp"
-            android:text="@string/pos" />
+            app:cardCornerRadius="0dp">
 
-        <TextView
-            android:id="@+id/tvPosCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="7"
-            android:layout_margin="@dimen/ten_dp"
-            android:layout_gravity="end" />
-    </android.support.v7.widget.CardView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/ten_dp"
+                android:text="@string/pos" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvOrders"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/tvPosCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7"
+                android:layout_margin="@dimen/ten_dp"
+                android:layout_gravity="end" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvOrders"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/fifteen_dp" />
+    </LinearLayout>
+
 </LinearLayout>

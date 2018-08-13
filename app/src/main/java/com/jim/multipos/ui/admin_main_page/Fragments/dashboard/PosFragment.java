@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.admin_main_page.fragments.dashboard;
 
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
@@ -38,5 +39,6 @@ public class PosFragment extends BaseFragment {
         items.add(new Pos("4", "34500", "50000", "140"));
         rvPos.setLayoutManager(new LinearLayoutManager(getContext()));
         rvPos.setAdapter(new PosAdapter(items));
+        rvPos.addItemDecoration(new DividerItemDecoration(rvPos.getContext(), DividerItemDecoration.VERTICAL));
     }
 }

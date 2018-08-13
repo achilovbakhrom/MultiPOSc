@@ -16,6 +16,10 @@ import com.jim.multipos.ui.admin_main_page.fragments.dashboard.PosFragment;
 import com.jim.multipos.ui.admin_main_page.fragments.dashboard.di.DashBoardMainModule;
 import com.jim.multipos.ui.admin_main_page.fragments.dashboard.di.OrderModule;
 import com.jim.multipos.ui.admin_main_page.fragments.dashboard.di.PosModule;
+import com.jim.multipos.ui.admin_main_page.fragments.establishment.EstablishmentAddFragment;
+import com.jim.multipos.ui.admin_main_page.fragments.establishment.EstablishmentFragment;
+import com.jim.multipos.ui.admin_main_page.fragments.establishment.di.EstablishmentModule;
+import com.jim.multipos.ui.admin_main_page.fragments.establishment.di.EstablishmentPosModule;
 
 import dagger.Binds;
 import dagger.Module;
@@ -47,4 +51,12 @@ public abstract class AdminMainPageModule {
     @PerFragment
     @ContributesAndroidInjector(modules = PosModule.class)
     abstract PosFragment providePosFragment();
+
+    @PerFragment
+    @ContributesAndroidInjector(modules = EstablishmentModule.class)
+    abstract EstablishmentAddFragment provideEstablishmentAddFragment();
+
+    @PerFragment
+    @ContributesAndroidInjector(modules = EstablishmentPosModule.class)
+    abstract EstablishmentFragment provideEstablishmentFragment();
 }

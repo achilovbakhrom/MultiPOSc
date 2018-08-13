@@ -34,6 +34,7 @@ public class PosAdapter extends BaseAdapter<Pos, PosAdapter.PosViewHolder> {
         holder.tvCard.setText(pos.getCard());
         holder.tvCash.setText(pos.getCash());
         holder.tvOrders.setText(pos.getOrders());
+        holder.posID.setText(pos.getPosID());
     }
 
     public class PosViewHolder extends BaseViewHolder {
@@ -43,6 +44,8 @@ public class PosAdapter extends BaseAdapter<Pos, PosAdapter.PosViewHolder> {
         TextView tvCard;
         @BindView(R.id.tvOrders)
         TextView tvOrders;
+        @BindView(R.id.posID)
+        TextView posID;
 
         public PosViewHolder(View itemView) {
             super(itemView);

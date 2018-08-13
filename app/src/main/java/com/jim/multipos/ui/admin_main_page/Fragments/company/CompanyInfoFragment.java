@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
+import com.jim.multipos.ui.admin_main_page.fragments.company.adapter.CompanyInfoAdapter;
 import com.jim.multipos.ui.admin_main_page.fragments.company.model.CompanyModel;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.rxevents.admin_main_page.CompanyEvent;

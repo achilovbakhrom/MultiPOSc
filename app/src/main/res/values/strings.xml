@@ -1545,4 +1545,9 @@
     <string name="pos">POS</string>
     <string name="card">Card</string>
     <string name="orders">Orders</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="add_establishment">Add Establishment</string>
+    <string name="main_stock">Main Stock</string>
+    <string name="location">Location</string>
+    <string name="establishments">Establishments</string>
 </resources>

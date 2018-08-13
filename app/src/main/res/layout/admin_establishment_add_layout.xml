@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/layout"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/seven_dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/ten_dp"
+                android:text="@string/add_establishment"
+                android:textColor="@color/colorBlueSecond" />
+
+        </android.support.v7.widget.CardView>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:layout_marginStart="@dimen/fourty_dp"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:text="@string/name" />
+
+        <com.jim.mpviews.MpEditText
+            android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/thirty_dp"
+            android:layout_marginStart="@dimen/twenty_five_dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:layout_marginStart="@dimen/fourty_dp"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:text="@string/address" />
+
+        <com.jim.mpviews.MpEditText
+            android:id="@+id/etAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/thirty_dp"
+            android:layout_marginStart="@dimen/twenty_five_dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:layout_marginStart="@dimen/fourty_dp"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:text="@string/phone" />
+
+        <com.jim.mpviews.MpEditText
+            android:id="@+id/etPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/thirty_dp"
+            android:layout_marginStart="@dimen/twenty_five_dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:layout_marginStart="@dimen/fourty_dp"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:text="@string/stocks" />
+
+        <com.jim.mpviews.MpEditText
+            android:id="@+id/etStock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/thirty_dp"
+            android:layout_marginStart="@dimen/twenty_five_dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:layout_marginStart="@dimen/fourty_dp"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:text="@string/main_stock" />
+
+        <com.jim.mpviews.MpEditText
+            android:id="@+id/etMainStock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/thirty_dp"
+            android:layout_marginStart="@dimen/twenty_five_dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/thirty_dp"
+            android:layout_marginStart="@dimen/fourty_dp"
+            android:layout_marginTop="@dimen/fifteen_dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/is_active" />
+
+            <Switch
+                android:id="@+id/isActive"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/fifteen_dp"
+            android:layout_marginStart="@dimen/fourty_dp"
+            android:layout_marginTop="@dimen/fifteen_dp"
+            android:text="@string/description" />
+
+        <com.jim.mpviews.MpEditText
+            android:id="@+id/etDescription"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/seventy_dp"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:layout_marginEnd="@dimen/thirty_dp"
+            android:layout_marginStart="@dimen/twenty_five_dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorGreySecondaryDark"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/one_dp"
+            android:layout_weight="1"
+            android:background="@color/colorWhite"
+            android:text="@string/delete"
+            android:textColor="@color/colorRed" />
+
+        <Button
+            android:id="@+id/btnEdit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorWhite"
+            android:text="@string/edit"
+            android:textColor="@color/colorBlueSecond" />
+    </LinearLayout>
+</RelativeLayout>

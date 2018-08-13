@@ -38,4 +38,8 @@ public abstract class DoubleSideAdminActivity extends BaseActivity {
         replaceFragment(R.id.dashboard_rightContainer, right);
     }
 
+    protected final void openEstablishmentFragment(Fragment left, Fragment right) {
+        openComapnyFragment(left, right);
+    }
+
 }

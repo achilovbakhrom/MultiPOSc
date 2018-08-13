@@ -1,4 +1,4 @@
-package com.jim.multipos.ui.admin_main_page.fragments.company;
+package com.jim.multipos.ui.admin_main_page.fragments.company.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

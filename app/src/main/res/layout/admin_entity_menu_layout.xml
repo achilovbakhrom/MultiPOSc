@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tvProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/product"
+        android:layout_margin="@dimen/fifteen_dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#d6d6d6" />
+
+    <TextView
+        android:id="@+id/tvProductClass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/product_class_"
+        android:layout_margin="@dimen/fifteen_dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#d6d6d6" />
+
+    <TextView
+        android:id="@+id/tvDiscount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/discount"
+        android:layout_margin="@dimen/fifteen_dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#d6d6d6" />
+
+    <TextView
+        android:id="@+id/tvServiceFee"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/service_fee"
+        android:layout_margin="@dimen/fifteen_dp" />
+</LinearLayout>
