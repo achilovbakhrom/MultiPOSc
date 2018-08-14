@@ -93,4 +93,9 @@ dependencies {
     implementation 'com.github.angads25:filepicker:1.1.1'
     implementation 'com.github.mjdev:libaums:0.5.5'
     implementation 'com.terrakok.phonematter:phonematter:1.0@aar'
+
+    //leak canary
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.1'
 }

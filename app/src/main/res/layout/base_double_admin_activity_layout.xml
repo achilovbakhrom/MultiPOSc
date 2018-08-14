@@ -21,6 +21,8 @@
             android:id="@+id/flLeftContainer"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:visibility="gone"
+            android:animateLayoutChanges="true"
             android:layout_weight="0.33">
 
         </FrameLayout>

@@ -8,6 +8,7 @@ import android.support.multidex.MultiDexApplication;
 import com.jim.multipos.config.common.DaggerAppComponent;
 import com.jim.multipos.di.BaseAppComponent;
 import com.jim.multipos.utils.managers.LocaleManger;
+import com.squareup.leakcanary.LeakCanary;
 
 import javax.inject.Inject;
 
@@ -27,6 +28,7 @@ public class MultiPosApp extends MultiDexApplication implements HasActivityInjec
     public void onCreate() {
         super.onCreate();
         DaggerAppComponent.builder().application(this).build().inject(this);
+        LeakCanary.install(this);
     }
 
     public BaseAppComponent getBaseAppComponent() {

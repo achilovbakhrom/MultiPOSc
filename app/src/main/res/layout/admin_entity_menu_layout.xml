@@ -2,14 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite">
 
     <TextView
         android:id="@+id/tvProduct"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/product"
-        android:layout_margin="@dimen/fifteen_dp" />
+        android:padding="@dimen/fifteen_dp" />
 
     <View
         android:layout_width="match_parent"
@@ -21,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/product_class_"
-        android:layout_margin="@dimen/fifteen_dp" />
+        android:padding="@dimen/fifteen_dp" />
 
     <View
         android:layout_width="match_parent"
@@ -33,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/discount"
-        android:layout_margin="@dimen/fifteen_dp" />
+        android:padding="@dimen/fifteen_dp" />
 
     <View
         android:layout_width="match_parent"
@@ -45,5 +46,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/service_fee"
-        android:layout_margin="@dimen/fifteen_dp" />
+        android:padding="@dimen/fifteen_dp" />
 </LinearLayout>

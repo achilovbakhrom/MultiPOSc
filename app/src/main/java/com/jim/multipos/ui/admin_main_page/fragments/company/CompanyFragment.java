@@ -12,6 +12,7 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.rxevents.admin_main_page.CompanyEvent;
+import com.jim.multipos.utils.rxevents.admin_main_page.CompanyItemClick;
 
 import javax.inject.Inject;
 
@@ -80,6 +81,7 @@ public class CompanyFragment extends BaseFragment {
                         etCompanyAddress.setText(((CompanyEvent) o).getCompanyAddress());
                         etIPCode.setText(((CompanyEvent) o).getCompanyIPCODE());
                         etDescription.setText(((CompanyEvent) o).getCompanyDescription());
+                        bus.send(new CompanyItemClick());
                     }
                 }));
     }
