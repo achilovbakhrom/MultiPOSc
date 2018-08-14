@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import com.jim.mpviews.MpSpinnerTransparent;
 import com.jim.mpviews.MpToolbar;
@@ -22,13 +23,14 @@ import com.jim.multipos.utils.rxevents.admin_main_page.CompanyItemClick;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class AdminMainPageActivity extends DoubleSideAdminActivity implements AdminMainPageView {
 
     private int lasPos = -1;
     @BindView(R.id.toolbar)
     MpToolbar toolbar;
+    @BindView(R.id.flLeftContainer)
+    FrameLayout layout;
 
     @Inject
     AdminMainPagePresenter presenter;
@@ -36,7 +38,6 @@ public class AdminMainPageActivity extends DoubleSideAdminActivity implements Ad
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
 
         openCompanyFragment(new CompanyFragment(), new CompanyInfoFragment());
 
@@ -45,7 +46,6 @@ public class AdminMainPageActivity extends DoubleSideAdminActivity implements Ad
         ((MpSpinnerTransparent) findViewById(R.id.trans_spinner)).setAdapter();
 
         presenter.startObserving();
-
     }
 
     public void onClick(final View view) {

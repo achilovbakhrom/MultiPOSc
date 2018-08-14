@@ -46,6 +46,7 @@ public class CompanyFragment extends BaseFragment {
     @BindView(R.id.btnEdit)
     Button btnEdit;
 
+
     @OnClick(R.id.btnDelete)
     public void onDelete(View view) {
         if (btnDelete.getText().equals(getString(R.string.delete)))
@@ -84,6 +85,7 @@ public class CompanyFragment extends BaseFragment {
                         bus.send(new CompanyItemClick());
                     }
                 }));
+
     }
 
     @Override
@@ -137,4 +139,5 @@ public class CompanyFragment extends BaseFragment {
             isActive.setClickable(false);
         }
     }
+
 }

@@ -27,9 +27,7 @@ public class AdminMainPagePresenterImpl extends BasePresenterImpl<AdminMainPageV
     @Override
     public void startObserving() {
         disposable.add(bus.toObservable().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(o -> {
-                    view.onEvent(o);
-                }));
+                .subscribe(o -> view.onEvent(o)));
     }
 
     @Override

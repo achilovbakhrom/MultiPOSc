@@ -24,7 +24,7 @@ public class CompanyInfoAdapter extends RecyclerView.Adapter<CompanyInfoAdapter.
     ArrayList<CompanyModel> items;
     Context context;
     OnItemClick itemClick;
-    int lastPos = 0;
+    int lastPos = -1;
 
     public CompanyInfoAdapter(ArrayList<CompanyModel> items, Context context, OnItemClick click) {
         this.items = items;
