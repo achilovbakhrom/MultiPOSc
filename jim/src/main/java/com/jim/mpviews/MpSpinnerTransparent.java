@@ -3,6 +3,7 @@ package com.jim.mpviews;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
@@ -18,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jim.mpviews.utils.Test;
 
@@ -29,7 +31,7 @@ import java.util.Arrays;
  */
 
 public class MpSpinnerTransparent extends RelativeLayout {
-    MpSpinnerWithPhoto.setOnItemClickListener onItemClickListener;
+
     boolean firstChangedItem = true;
     private Spinner spinner;
     private ImageView imageView;
@@ -40,6 +42,7 @@ public class MpSpinnerTransparent extends RelativeLayout {
     private ArrayList<String> photoList;
     private Context context;
     private String key = null;
+    private setOnItemClickListener onItemClickListener;
 
     public MpSpinnerTransparent(Context context) {
         super(context);
@@ -63,7 +66,7 @@ public class MpSpinnerTransparent extends RelativeLayout {
     }
 
     private void init(Context context, AttributeSet attrs) {
-        Log.d(Test.TAG, "init");
+
         this.context = context;
         LayoutInflater.from(context).inflate(R.layout.transparent_spinner_layout, this);
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -81,15 +84,15 @@ public class MpSpinnerTransparent extends RelativeLayout {
 
     }
 
-    public void setItems(ArrayList<String> name, ArrayList<String> position, ArrayList<String> photoID) {
+    public void setItems(ArrayList<String> name, ArrayList<String> roles, ArrayList<String> photoID) {
         nameList = name;
-        roleList = position;
+        roleList = roles;
         photoList = photoID;
     }
 
-    public void setItems(String[] name, String[] position, String[] photoID) {
+    public void setItems(String[] name, String [] roles, String[] photoID) {
         nameList.addAll(Arrays.asList(name));
-        roleList.addAll(Arrays.asList(position));
+        roleList.addAll(Arrays.asList(roles));
         photoList.addAll(Arrays.asList(photoID));
     }
 
@@ -98,7 +101,7 @@ public class MpSpinnerTransparent extends RelativeLayout {
         spinner.setAdapter(adapter);
     }
 
-    public void setOnItemSelectedListener(MpSpinnerWithPhoto.setOnItemClickListener onItemClickListener) {
+    public void setOnItemSelectedListener(MpSpinnerTransparent.setOnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -107,7 +110,8 @@ public class MpSpinnerTransparent extends RelativeLayout {
                 else {
                     Log.d(Test.TAG, "item selected: " + String.valueOf(i));
                     MpSpinnerTransparent.this.onItemClickListener.onItemSelected(adapterView, view, i, l);
-
+                    TextView tv = view.findViewById(R.id.tvName);
+                    tv.setTextColor(Color.WHITE);
                 }
             }
 
@@ -155,13 +159,11 @@ public class MpSpinnerTransparent extends RelativeLayout {
         @SuppressLint("ViewHolder")
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            convertView = inflater.inflate(R.layout.mp_spinner_employer, null);
-            TextView empName = convertView.findViewById(R.id.tvEmpName);
+            convertView = inflater.inflate(R.layout.admin_spinner_layout, null);
+            TextView empName = convertView.findViewById(R.id.tvName);
             empName.setText(nameList.get(position));
-            empName.setTextSize(TypedValue.COMPLEX_UNIT_DIP, getResources().getDimension(R.dimen.ten_dp));
-            TextView empRole = convertView.findViewById(R.id.tvEmpRole);
-            empRole.setTextSize(TypedValue.COMPLEX_UNIT_DIP, getResources().getDimension(R.dimen.seven_dp));
-            empRole.setText(roleList.get(position));
+            TextView empPos = convertView.findViewById(R.id.tvPosition);
+            empPos.setText(roleList.get(position));
             convertView.setAlpha(0.1f);
             convertView.animate().alpha(1f).setDuration(400).start();
             return convertView;

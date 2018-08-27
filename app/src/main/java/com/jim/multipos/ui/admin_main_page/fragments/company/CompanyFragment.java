@@ -5,14 +5,12 @@ import android.support.v4.content.ContextCompat;
 import android.text.method.KeyListener;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Switch;
 
 import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.rxevents.admin_main_page.CompanyEvent;
-import com.jim.multipos.utils.rxevents.admin_main_page.CompanyItemClick;
 
 import javax.inject.Inject;
 
@@ -38,14 +36,10 @@ public class CompanyFragment extends BaseFragment {
     @BindView(R.id.etDescription)
     MpEditText etDescription;
 
-    @BindView(R.id.isActive)
-    Switch isActive;
-
     @BindView(R.id.btnDelete)
     Button btnDelete;
     @BindView(R.id.btnEdit)
     Button btnEdit;
-
 
     @OnClick(R.id.btnDelete)
     public void onDelete(View view) {
@@ -82,10 +76,8 @@ public class CompanyFragment extends BaseFragment {
                         etCompanyAddress.setText(((CompanyEvent) o).getCompanyAddress());
                         etIPCode.setText(((CompanyEvent) o).getCompanyIPCODE());
                         etDescription.setText(((CompanyEvent) o).getCompanyDescription());
-                        bus.send(new CompanyItemClick());
                     }
                 }));
-
     }
 
     @Override
@@ -123,7 +115,6 @@ public class CompanyFragment extends BaseFragment {
             etCompanyAddress.setKeyListener((KeyListener) etCompanyAddress.getTag());
             etIPCode.setKeyListener((KeyListener) etIPCode.getTag());
             etDescription.setKeyListener((KeyListener) etDescription.getTag());
-            isActive.setClickable(true);
             btnEdit.setText(getText(R.string.save));
         } else {
             etCompanyName.setTag(etCompanyName.getKeyListener());
@@ -136,8 +127,6 @@ public class CompanyFragment extends BaseFragment {
             etIPCode.setKeyListener(null);
             etDescription.setTag(etDescription.getKeyListener());
             etDescription.setKeyListener(null);
-            isActive.setClickable(false);
         }
     }
-
 }

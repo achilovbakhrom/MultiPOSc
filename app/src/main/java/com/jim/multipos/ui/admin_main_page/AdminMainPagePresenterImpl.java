@@ -13,8 +13,6 @@ public class AdminMainPagePresenterImpl extends BasePresenterImpl<AdminMainPageV
 
     AdminMainPageView view;
 
-    @Inject
-    RxBus bus;
 
     CompositeDisposable disposable = new CompositeDisposable();
 
@@ -24,14 +22,4 @@ public class AdminMainPagePresenterImpl extends BasePresenterImpl<AdminMainPageV
         view = adminMainPageView;
     }
 
-    @Override
-    public void startObserving() {
-        disposable.add(bus.toObservable().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(o -> view.onEvent(o)));
-    }
-
-    @Override
-    public void clearDisposable() {
-        disposable.dispose();
-    }
 }

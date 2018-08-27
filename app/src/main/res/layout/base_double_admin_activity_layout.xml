@@ -15,31 +15,95 @@
         android:id="@+id/company_fr_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <FrameLayout
-            android:id="@+id/flLeftContainer"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:animateLayoutChanges="true"
-            android:layout_weight="0.33"
-            android:duplicateParentState="true"
-            android:visibility="gone">
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/five_dp"
+            android:elevation="@dimen/seven_dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/colorAdminPageEditorBackColor">
 
-        </FrameLayout>
+            <RelativeLayout
+                android:id="@+id/fragmentInfo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_width="@dimen/two_dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/from_right_to_left_shadow" />
+                <TextView
+                    android:id="@+id/tvCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/ten_dp"
+                    android:text="@string/choose_company"
+                    android:textColor="@color/colorAdminPageTextColorBlue"
+                    android:layout_centerVertical="true"/>
 
-        <FrameLayout
-            android:id="@+id/flRightContainer"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.66">
+                <ImageView
+                    android:id="@+id/ivArrowFirst"
+                    android:layout_width="@dimen/twenty_dp"
+                    android:layout_height="@dimen/twenty_dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/tvCategory"
+                    android:src="@drawable/pather" />
 
-        </FrameLayout>
+                <TextView
+                    android:id="@+id/tvSubCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/ten_dp"
+                    android:text="@string/add_company"
+                    android:layout_toEndOf="@+id/ivArrowFirst"
+                    android:textColor="@color/colorAdminPageTextColorBlue"
+                    android:layout_centerVertical="true"/>
+
+                <ImageView
+                    android:layout_width="@dimen/thirty_dp"
+                    android:layout_height="@dimen/thirty_dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/ten_dp"
+                    android:src="@drawable/search"/>
+            </RelativeLayout>
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabMode="fixed"
+                app:tabGravity="fill"
+                android:visibility="gone"/>
+
+        </android.support.v7.widget.CardView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.jim.mpviews.MPCustomContainer
+                android:id="@+id/flLeftContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:animateLayoutChanges="true"
+                android:layout_toStartOf="@+id/flRightContainer"
+                app:width="400dp">
+
+                <ImageView
+                    android:layout_width="@dimen/two_dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:src="@drawable/from_right_to_left_shadow" />
+            </com.jim.mpviews.MPCustomContainer>
+
+            <FrameLayout
+                android:id="@+id/flRightContainer"
+                android:layout_width="400dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:animateLayoutChanges="true"/>
+
+        </RelativeLayout>
+
     </LinearLayout>
 
     <LinearLayout

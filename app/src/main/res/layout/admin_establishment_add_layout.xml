@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorAdminPageEditorBackColor">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,6 +17,7 @@
             android:elevation="@dimen/seven_dp">
 
             <TextView
+                android:id="@+id/tvEdit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/ten_dp"
@@ -129,10 +131,13 @@
             android:layout_marginTop="@dimen/fifteen_dp"
             android:text="@string/description" />
 
-        <com.jim.mpviews.MpEditText
+        <EditText
             android:id="@+id/etDescription"
             android:layout_width="match_parent"
             android:layout_height="@dimen/seventy_dp"
+            android:inputType="textMultiLine"
+            android:background="@drawable/edit_text_bg"
+            android:padding="@dimen/ten_dp"
             android:layout_marginBottom="@dimen/ten_dp"
             android:layout_marginEnd="@dimen/thirty_dp"
             android:layout_marginStart="@dimen/twenty_five_dp" />
@@ -143,7 +148,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorGreySecondaryDark"
+        android:layout_margin="@dimen/fifteen_dp"
         android:orientation="horizontal">
 
         <Button
@@ -152,17 +157,19 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/one_dp"
             android:layout_weight="1"
-            android:background="@color/colorWhite"
+            android:background="@drawable/circular_button_red"
+            android:layout_margin="@dimen/five_dp"
             android:text="@string/delete"
-            android:textColor="@color/colorRed" />
+            android:textColor="@color/colorWhite" />
 
         <Button
             android:id="@+id/btnEdit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/colorWhite"
+            android:background="@drawable/circular_button_green"
+            android:layout_margin="@dimen/five_dp"
             android:text="@string/edit"
-            android:textColor="@color/colorBlueSecond" />
+            android:textColor="@color/colorWhite" />
     </LinearLayout>
 </RelativeLayout>

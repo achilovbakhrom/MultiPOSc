@@ -4,6 +4,6 @@
     android:width="24dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <path
-        android:fillColor="@color/colorGreySecondaryDark"
+        android:fillColor="@color/colorAdminPageTextColorGray"
         android:pathData="M23.5,1A22.5,22.5 0,1 0,46 23.5,22.526 22.526,0 0,0 23.5,1ZM36.35,17.051 L20.138,33.263a1.874,1.874 0,0 1,-2.651 0L8.775,24.551a0.937,0.937 0,0 1,0 -1.326L10.1,21.9a0.938,0.938 0,0 1,1.326 0l7.386,7.387L33.7,14.4a0.938,0.938 0,0 1,1.326 0l1.325,1.326A0.937,0.937 0,0 1,36.35 17.051Z" />
 </vector>

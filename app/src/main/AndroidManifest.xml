@@ -35,13 +35,7 @@
             android:launchMode="singleTask"
             android:lockTaskMode="if_whitelisted"
             android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <category android:name="android.intent.category.HOME" />
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!--main-->
 
         </activity>
         <activity
@@ -210,7 +204,15 @@
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ui.reports_admin.ReportsAdminActivity" />
         <activity android:name=".ui.admin_auth_signup.AdminAuthSignupActivity" />
-        <activity android:name=".ui.admin_main_page.AdminMainPageActivity" />
+        <activity android:name=".ui.admin_main_page.AdminMainPageActivity" >
+            <intent-filter>
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.admin_auth_signin.AdminAuthSigninActivity" />
 
         <service

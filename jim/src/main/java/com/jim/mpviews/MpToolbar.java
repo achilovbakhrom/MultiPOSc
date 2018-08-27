@@ -43,7 +43,7 @@ public class MpToolbar extends RelativeLayout {
     private int mode;
     private LinearLayout mpMainMenu, llEmployer, llDateIntervalPicker, mpProfile;
     private RelativeLayout mpSearch, mpProducts, mpCustomers, mpReports, mpInventory;
-    private RelativeLayout mpLeftSide, mpRightSide, rlBackgroun;
+    private RelativeLayout mpLeftSide, mpRightSide, rlBackgroun, adminView;
     private ImageView mpSettings;
     private MpHorizontalScroller mpHorizontalScroller;
     private MpSearchView mpSearchView;
@@ -102,6 +102,7 @@ public class MpToolbar extends RelativeLayout {
         mpRightSide = findViewById(R.id.mpRightSide);
         tvPeriod = findViewById(R.id.tvPeriod);
         rlBackgroun = findViewById(R.id.rlBackgroun);
+        adminView = findViewById(R.id.adminView);
         mode = array.getInt(R.styleable.MpToolbar_view_mode, DEFAULT_MODE);
         setMode(mode);
         simpleDateFormat = new SimpleDateFormat(" MMM dd, yyyy", Locale.getDefault());
@@ -438,6 +439,7 @@ public class MpToolbar extends RelativeLayout {
             case ADMIN_MODE:
                 findViewById(R.id.adminViewLeftSide).setVisibility(VISIBLE);
                 findViewById(R.id.adminViewRightSide).setVisibility(VISIBLE);
+                adminView.setVisibility(VISIBLE);
                 findViewById(R.id.btnBack).setVisibility(GONE);
                 findViewById(R.id.tvMPCenter).setVisibility(GONE);
                 mpLeftSide.setVisibility(GONE);

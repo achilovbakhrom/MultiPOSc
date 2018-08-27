@@ -1550,4 +1550,10 @@
     <string name="main_stock">Main Stock</string>
     <string name="location">Location</string>
     <string name="establishments">Establishments</string>
+    <string name="add_product_">Add Product</string>
+    <string name="add_product_photo">Add Product Photo</string>
+    <string name="made_country">Made Country</string>
+    <string name="add_product_class">Add Product Class</string>
+    <string name="edit_establishment">Edit Establishment</string>
+    <string name="add_pos">Add POS</string>
 </resources>

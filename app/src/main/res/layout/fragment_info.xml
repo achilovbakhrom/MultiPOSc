@@ -111,7 +111,7 @@
             <com.jim.mpviews.MPosSpinner
                 android:id="@+id/countryPicker"
                 android:layout_width="164dp"
-                android:layout_height="@dimen/thirty_seven_dp" />
+                android:layout_height="@dimen/thirty_seven_dp"/>
         </LinearLayout>
 
         <RelativeLayout

@@ -186,4 +186,10 @@
         <attr name="circleFrontColor" format="color" />
         <attr name="textColor" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="MPCustomContainer">
+        <attr name="width" format="dimension"/>
+        <attr name="editor" format="reference"/>
+    </declare-styleable>
+
 </resources>

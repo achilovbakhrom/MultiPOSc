@@ -19,9 +19,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/fifteen_dp"
             android:layout_marginRight="@dimen/fifteen_dp"
-            android:src="@drawable/no_photo"
-
-            />
+            android:src="@drawable/no_photo" />
 
         <LinearLayout
             android:layout_width="wrap_content"

@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/layout"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="@dimen/seven_dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/ten_dp"
+                    android:text="@string/add_product_"
+                    android:textColor="@color/colorBlueSecond" />
+
+            </android.support.v7.widget.CardView>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/fifteen_dp"
+                android:layout_marginStart="@dimen/fourty_dp"
+                android:layout_marginTop="@dimen/thirty_dp"
+                android:text="@string/add_product_photo" />
+
+            <RelativeLayout
+                android:layout_width="@dimen/hundred_dp"
+                android:layout_height="@dimen/hundred_dp"
+                android:layout_gravity="center_horizontal">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/company_icon_placeholder" />
+
+                <ImageView
+                    android:layout_width="@dimen/twenty_five_dp"
+                    android:layout_height="@dimen/twenty_five_dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/fab_add_image" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:layout_marginStart="@dimen/fourty_dp"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:text="@string/name" />
+
+            <com.jim.mpviews.MpEditText
+                android:id="@+id/etName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/thirty_dp"
+                android:layout_marginStart="@dimen/twenty_five_dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:layout_marginStart="@dimen/fourty_dp"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:text="@string/barcode" />
+
+            <com.jim.mpviews.MpEditText
+                android:id="@+id/etBarcode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/thirty_dp"
+                android:layout_marginStart="@dimen/twenty_five_dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:layout_marginStart="@dimen/fourty_dp"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:text="@string/sku" />
+
+            <com.jim.mpviews.MpEditText
+                android:id="@+id/etSKU"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/thirty_dp"
+                android:layout_marginStart="@dimen/twenty_five_dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:layout_marginStart="@dimen/fourty_dp"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:text="@string/made_country" />
+
+            <com.jim.mpviews.MPosSpinner
+                android:id="@+id/madeCountry"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/thirty_five_dp"
+                android:layout_marginEnd="@dimen/thirty_dp"
+                android:layout_marginStart="@dimen/twenty_five_dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:layout_marginStart="@dimen/fourty_dp"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:text="@string/category" />
+
+            <com.jim.mpviews.MPosSpinner
+                android:id="@+id/category"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/thirty_five_dp"
+                android:layout_marginEnd="@dimen/thirty_dp"
+                android:layout_marginStart="@dimen/twenty_five_dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:layout_marginStart="@dimen/fourty_dp"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:text="@string/subcategory" />
+
+            <com.jim.mpviews.MPosSpinner
+                android:id="@+id/subcategory"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/thirty_five_dp"
+                android:layout_marginEnd="@dimen/thirty_dp"
+                android:layout_marginStart="@dimen/twenty_five_dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:layout_marginStart="@dimen/fourty_dp"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:text="@string/unit" />
+
+            <com.jim.mpviews.MPosSpinner
+                android:id="@+id/unit"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/thirty_five_dp"
+                android:layout_marginEnd="@dimen/thirty_dp"
+                android:layout_marginStart="@dimen/twenty_five_dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:layout_marginStart="@dimen/fourty_dp"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:text="@string/product_class_" />
+
+            <com.jim.mpviews.MPosSpinner
+                android:id="@+id/productClass"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/thirty_five_dp"
+                android:layout_marginEnd="@dimen/thirty_dp"
+                android:layout_marginStart="@dimen/twenty_five_dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/thirty_dp"
+                android:layout_marginStart="@dimen/fourty_dp"
+                android:layout_marginTop="@dimen/fifteen_dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/is_active" />
+
+                <Switch
+                    android:id="@+id/isActive"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/fifteen_dp"
+                android:layout_marginStart="@dimen/fourty_dp"
+                android:layout_marginTop="@dimen/fifteen_dp"
+                android:text="@string/description" />
+
+            <EditText
+                android:id="@+id/etDescription"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/seventy_dp"
+                android:inputType="textMultiLine"
+                android:background="@drawable/edit_text_bg"
+                android:padding="@dimen/ten_dp"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:layout_marginEnd="@dimen/thirty_dp"
+                android:layout_marginStart="@dimen/twenty_five_dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorGreySecondaryDark"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/one_dp"
+            android:layout_weight="1"
+            android:background="@color/colorWhite"
+            android:text="@string/delete"
+            android:textColor="@color/colorRed" />
+
+        <Button
+            android:id="@+id/btnEdit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorWhite"
+            android:text="@string/edit"
+            android:textColor="@color/colorBlueSecond" />
+    </LinearLayout>
+</RelativeLayout>

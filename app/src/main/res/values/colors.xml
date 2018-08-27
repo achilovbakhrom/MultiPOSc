@@ -6,6 +6,7 @@
     <color name="colorBlue">#419fd9</color>
     <color name="colorBlueDark">#3a90c6</color>
     <color name="colorBlueSecond">#51afe6</color>
+    <color name="colorBlueSecondDark">#438FBF</color>
     <color name="colorCircleBlue">#52ace5</color>
     <color name="colorBlueThird">#d1eafa</color>
     <color name="colorDarkBlue">#0f7dc1</color>
@@ -38,4 +39,9 @@
     <color name="colorGreenVeryLight">#f3feee</color>
     <color name="colorOrangeLight">#fef9eb</color>
     <color name="colorDiscount">#d3d3d3</color>
+    <color name="colorAdminPageBackground">#457c9e</color>
+    <color name="colorAdminPageTextColorBlue">#205374</color>
+    <color name="colorAdminPageTextColorGray">#b9d5e6</color>
+    <color name="colorAdminPageSelectedItemColor">#52ace5</color>
+    <color name="colorAdminPageEditorBackColor">#ebf4fb</color>
 </resources>
